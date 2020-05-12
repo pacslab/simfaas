@@ -74,6 +74,12 @@ After updating the README.md, use the following to update the README.rst accordi
 bash .travis/readme_prep.sh
 ```
 
+To update the base devcontainer image, run the following in the project root (replace the docker hub username with yours, also update the docker image for base in `.devcontainer/Dockerfile`):
+
+```sh
+bash .devcontainer/build-push.sh
+```
+
 ## Examples
 
 ```py
