@@ -4,6 +4,8 @@
 	"name": "Python 3 - Anaconda",
 	"context": "..",
 	"dockerFile": "Dockerfile",
+	// In case you want to rebuild the dockerfile, replace Dockerfile with Dockerfile-base
+	// "dockerFile": "Dockerfile-base",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
