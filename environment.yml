@@ -3,4 +3,4 @@ dependencies:
   - python=3.6
   - anaconda
   - pip
-# prefix: ./.envs
+prefix: ./.envs
