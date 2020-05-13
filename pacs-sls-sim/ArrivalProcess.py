@@ -9,7 +9,7 @@ from Utility import convert_hist_pdf
 # warnings.simplefilter(action='ignore', category=NotImplementedError)
 # import modin.pandas as pd
 
-class ArrivalProcess:
+class SimProcess:
     def __init__(self, *args, **kwargs):
         # if your class has pdf or cdf functions, switch the booleans to True
         self.has_pdf = False
@@ -42,28 +42,28 @@ class ArrivalProcess:
         plt.grid(True)
 
 
-class ExponentialArrivalProcess(ArrivalProcess):
+class ExpSimProcess(SimProcess):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.has_pdf = True
         self.has_cdf = True
 
-        _rps = kwargs.get('rps')
-        if _rps is None:
+        _rate = kwargs.get('rate')
+        if _rate is None:
             raise Exception("You need to provied a request rate!")
-        self.rps = _rps
+        self.rate = _rate
 
     def pdf(self, x):
-        return expon.pdf(x, scale=1/self.rps)
+        return expon.pdf(x, scale=1/self.rate)
 
     def cdf(self, x):
-        return expon.cdf(x, scale=1/self.rps)
+        return expon.cdf(x, scale=1/self.rate)
 
     def generate_inter_arrival(self):
-        return np.random.exponential(1/self.rps)
+        return np.random.exponential(1/self.rate)
 
 if __name__ == "__main__":
-    exp_arr = ExponentialArrivalProcess(rps=5)
+    exp_arr = ExpSimProcess(rate=5)
     exp_arr.visualize_histogram(num_traces=10000, num_bins=100)
     plt.show()
