@@ -10,6 +10,8 @@ from Utility import convert_hist_pdf
 # import modin.pandas as pd
 
 class SimProcess:
+    """SimProcess gives us a single interface to simulate different processes
+    """    
     def __init__(self, *args, **kwargs):
         # if your class has pdf or cdf functions, switch the booleans to True
         self.has_pdf = False
@@ -18,7 +20,7 @@ class SimProcess:
     def generate_inter_arrival(self):
         raise NotImplementedError
 
-    def visualize_histogram(self, num_traces=10000, num_bins=100):
+    def visualize(self, num_traces=10000, num_bins=100):
         traces = np.array([self.generate_inter_arrival() for i in range(num_traces)])
         print(f"Simulated Average Inter-Arrival Time: {np.mean(traces):.6f}")
         print(f"Simulated Average Arrival Rate: {num_traces / np.sum(traces):.6f}")
@@ -65,5 +67,5 @@ class ExpSimProcess(SimProcess):
 
 if __name__ == "__main__":
     exp_arr = ExpSimProcess(rate=5)
-    exp_arr.visualize_histogram(num_traces=10000, num_bins=100)
+    exp_arr.visualize(num_traces=10000, num_bins=100)
     plt.show()
