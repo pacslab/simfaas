@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import expon, poisson
 
-from Utility import convert_hist_pdf
+from pacssim.Utility import convert_hist_pdf
 
 # import warnings
 # warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -17,13 +17,13 @@ class SimProcess:
         self.has_pdf = False
         self.has_cdf = False
 
-    def generate_inter_arrival(self):
+    def generate_trace(self):
         raise NotImplementedError
 
     def visualize(self, num_traces=10000, num_bins=100):
-        traces = np.array([self.generate_inter_arrival() for i in range(num_traces)])
-        print(f"Simulated Average Inter-Arrival Time: {np.mean(traces):.6f}")
-        print(f"Simulated Average Arrival Rate: {num_traces / np.sum(traces):.6f}")
+        traces = np.array([self.generate_trace() for i in range(num_traces)])
+        print(f"Simulated Average Inter-Event Time: {np.mean(traces):.6f}")
+        print(f"Simulated Average Event Rate: {num_traces / np.sum(traces):.6f}")
 
         base, hist_values, cumulative = convert_hist_pdf(traces, num_bins)
 
@@ -62,7 +62,7 @@ class ExpSimProcess(SimProcess):
     def cdf(self, x):
         return expon.cdf(x, scale=1/self.rate)
 
-    def generate_inter_arrival(self):
+    def generate_trace(self):
         return np.random.exponential(1/self.rate)
 
 if __name__ == "__main__":
