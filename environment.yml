@@ -1,6 +1,5 @@
 name: simenv
 dependencies:
   - python=3.6
-  - anaconda
   - pip
 prefix: ./.envs
