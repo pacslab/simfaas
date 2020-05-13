@@ -30,7 +30,7 @@ class SimProcess:
         plt.figure()
         plt.plot(base, hist_values, label='Sim Hist')
         if self.has_pdf:
-            pdf_vals = np.array([0] + [self.pdf(x) for x in base[1:]])
+            pdf_vals = np.array([0,0] + [self.pdf(x) for x in base[2:]])
             plt.plot(base, pdf_vals, ls='--', label="Model PDF")
         plt.legend()
         plt.grid(True)
@@ -38,7 +38,7 @@ class SimProcess:
         plt.figure()
         plt.plot(base, cumulative, label='Sim Cumulative')
         if self.has_cdf:
-            cdf_vals = np.array([0] + [self.cdf(x) for x in base[1:]])
+            cdf_vals = np.array([0, 0] + [self.cdf(x) for x in base[2:]])
             plt.plot(base, cdf_vals, ls='--', label="Model CDF")
         plt.legend()
         plt.grid(True)
