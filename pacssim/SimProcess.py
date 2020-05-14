@@ -12,7 +12,8 @@ from pacssim.Utility import convert_hist_pdf
 class SimProcess:
     """SimProcess gives us a single interface to simulate different processes
     """    
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
+        super().__init__()
         # if your class has pdf or cdf functions, switch the booleans to True
         self.has_pdf = False
         self.has_cdf = False
@@ -45,16 +46,12 @@ class SimProcess:
 
 
 class ExpSimProcess(SimProcess):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, rate):
+        super().__init__()
 
         self.has_pdf = True
         self.has_cdf = True
-
-        _rate = kwargs.get('rate')
-        if _rate is None:
-            raise Exception("You need to provied a request rate!")
-        self.rate = _rate
+        self.rate = rate
 
     def pdf(self, x):
         return expon.pdf(x, scale=1/self.rate)
