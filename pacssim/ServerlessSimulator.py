@@ -1,6 +1,7 @@
 # The main simulator for serverless computing platforms
 
 from pacssim.SimProcess import ExpSimProcess
+import numpy as np
 
 class FunctionInstance:
     def __init__(self, t, cold_service_process, warm_service_process, expiration_threshold):
@@ -44,6 +45,9 @@ class FunctionInstance:
             self.next_departure = t + self.warm_service_process.generate_trace()
             self.update_next_termination()
 
+    def is_idle(self):
+        return self.state == 'IDLE'
+
     def make_transition(self):
         # next transition is a departure
         if self.state == 'COLD' or self.state == 'WARM':
@@ -60,7 +64,9 @@ class FunctionInstance:
         else:
             raise Exception("Cannot make transition on terminated instance!")
 
-    def get_next_transition_time(self, t):
+        return self.state
+
+    def get_next_transition_time(self, t=0):
         # next transition would be termination
         if self.state == 'IDLE':
             return self.get_next_termination(t)
@@ -79,7 +85,7 @@ class FunctionInstance:
 
 class ServerlessSimulator:
     def __init__(self, arrival_process=None, warm_service_process=None, 
-            cold_service_process=None, expiration_threshold=600, **kwargs):
+            cold_service_process=None, expiration_threshold=600, max_time=24*60*60, **kwargs):
         super().__init__()
         
         # setup arrival process
@@ -112,22 +118,123 @@ class ServerlessSimulator:
             raise Exception('Cold Service process not defined!')
 
         self.expiration_threshold = expiration_threshold
+        self.max_time = max_time
 
-    # def generate_trace(self):
+    def reset_trace(self):
+        # an archive of previous servers
+        self.prev_servers = []
+        self.total_req_count = 0
+        self.total_cold_count = 0
+        self.total_warm_count = 0
+        # current state of instances
+        self.servers = []
+        self.server_count = 0
+        self.running_count = 0
+        self.idle_count = 0
+
+    def has_server(self):
+        return len(self.servers) > 0
+
+    def __str__(self):
+        return f"idle/running/total: \t {self.idle_count}/{self.running_count}/{self.server_count}"
+
+    def req(self):
+        return self.arrival_process.generate_trace()
+
+    def cold_start_arrival(self, t):
+        self.total_req_count += 1
+        self.total_cold_count += 1
+
+        self.server_count += 1
+        self.running_count += 1
+        new_server = FunctionInstance(t, self.cold_service_process, self.warm_service_process, self.expiration_threshold)
+        self.servers.append(new_server)
+
+    def schedule_warm_instance(self, t):
+        self.total_req_count += 1
+        self.total_warm_count += 1
+
+        idle_instances = [s for s in self.servers if s.is_idle()]
+        creation_times = [s.creation_time for s in idle_instances]
+        
+        # scheduling mechanism
+        creation_times = np.array(creation_times)
+        # find the newest instance
+        idx = np.argmax(creation_times)
+        idle_instances[idx].arrival_transition(t)
+
+    def warm_start_arrival(self, t):
+        # transition from idle to running
+        self.idle_count -= 1
+        self.running_count += 1
+        self.schedule_warm_instance(t)
+
+    def generate_trace(self, debug_print=False):
+        # reset trace values
+        self.reset_trace()
+
+        t = 0
+        next_arrival = t + self.req()
+        while t < self.max_time:
+            if debug_print:
+                print()
+                print(f"Time: {t:.2f} \t NextArrival:{next_arrival:.2f}")
+                print(self)
+                # print state of all servers
+                [print(s) for s in self.servers]
+
+            # if there are no servers, next transition is arrival
+            if self.has_server() == False:
+                t = next_arrival
+                next_arrival = t + self.req()
+                # no servers, so cold start
+                self.cold_start_arrival(t)
+                continue
+
+            # if there are servers, next transition is the soonest one
+            server_next_transitions = np.array([s.get_next_transition_time(t) for s in self.servers])
+
+            # if next transition is arrival
+            if (next_arrival - t) < server_next_transitions.min():
+                t = next_arrival
+                next_arrival = t + self.req()
+
+                # if warm start
+                if self.idle_count > 0:
+                    self.warm_start_arrival(t)
+                # if cold start
+                else:
+                    self.cold_start_arrival(t)
+                continue
+
+            # if next transition is a state change in one of servers
+            else:
+                # find the server that needs transition
+                idx = server_next_transitions.argmin()
+                t = t + server_next_transitions[idx]
+                new_state = self.servers[idx].make_transition()
+                # delete instance if it was just terminated
+                if new_state == 'TERM':
+                    self.prev_servers.append(self.servers[idx])
+                    self.idle_count -= 1
+                    self.server_count -= 1
+                    del self.servers[idx]
+                    if debug_print:
+                        print(f"Termination for: # {idx}")
+                
+                # if request has done processing (exit event)
+                elif new_state == 'IDLE':
+                    # transition from running to idle
+                    self.running_count -= 1
+                    self.idle_count += 1
+                else:
+                    raise Exception(f"Unknown transition in states: {new_state}")
+
 
 
 
 if __name__ == "__main__":
-    sim = ServerlessSimulator(arrival_rate=1/0.3, warm_service_rate=1/2.05, cold_service_rate=1/2.2,
-            expiration_threshold=600)
-    func = FunctionInstance(100, sim.cold_service_process, sim.warm_service_process, sim.expiration_threshold)
-    print(func.get_next_transition_time(100))
-    print(func)
-    func.make_transition()
-    print(func)
-    func.arrival_transition(200)
-    print(func)
-    func.make_transition()
-    print(func)
-    print(func.get_next_transition_time(300))
+    sim = ServerlessSimulator(arrival_rate=0.3, warm_service_rate=1/2.05, cold_service_rate=1/2.2,
+            expiration_threshold=600, max_time=10000)
+    sim.generate_trace(debug_print=False)
   

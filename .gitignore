@@ -125,3 +125,4 @@ dmypy.json
 .pyre/
 README.rst
 .vscode
+output.log
