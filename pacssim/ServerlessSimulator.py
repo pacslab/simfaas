@@ -32,6 +32,9 @@ class FunctionInstance:
     def update_next_termination(self):
         self.next_termination = self.next_departure + self.expiration_threshold
 
+    def get_life_span(self):
+        return self.next_termination - self.creation_time
+
     def get_state(self):
         return self.state
 
@@ -131,6 +134,11 @@ class ServerlessSimulator:
         self.server_count = 0
         self.running_count = 0
         self.idle_count = 0
+        # history results
+        self.hist_times = []
+        self.hist_server_count = []
+        self.hist_server_running_count = []
+        self.hist_server_idle_count = []
 
     def has_server(self):
         return len(self.servers) > 0
@@ -169,6 +177,27 @@ class ServerlessSimulator:
         self.running_count += 1
         self.schedule_warm_instance(t)
 
+
+    def print_trace_results(self):
+        print(f"Cold Starts / total requests: \t {self.total_cold_count} / {self.total_req_count}")
+        print(f"Cold Start Probability: \t {self.total_cold_count / self.total_req_count:.4f}")
+
+        # average instance life span
+        life_spans = np.array([s.get_life_span() for s in self.prev_servers])
+        print(f"Average Instance Life Span: \t {life_spans.mean():.4f}")
+
+        time_lengths = np.diff(self.hist_times)
+        # average instance count
+        avg_server_count = (self.hist_server_count * time_lengths).sum() / self.hist_times[-1]
+        print(f"Average Server Count:  \t\t {avg_server_count:.4f}")
+        # average running count
+        avg_running_count = (self.hist_server_running_count * time_lengths).sum() / self.hist_times[-1]
+        print(f"Average Running Count:  \t {avg_running_count:.4f}")
+        # average idle count
+        avg_idle_count = (self.hist_server_idle_count * time_lengths).sum() / self.hist_times[-1]
+        print(f"Average Idle Count:  \t\t {avg_idle_count:.4f}")
+
+
     def generate_trace(self, debug_print=False):
         # reset trace values
         self.reset_trace()
@@ -176,9 +205,13 @@ class ServerlessSimulator:
         t = 0
         next_arrival = t + self.req()
         while t < self.max_time:
+            self.hist_times.append(t)
+            self.hist_server_count.append(self.server_count)
+            self.hist_server_running_count.append(self.running_count)
+            self.hist_server_idle_count.append(self.idle_count)
             if debug_print:
                 print()
-                print(f"Time: {t:.2f} \t NextArrival:{next_arrival:.2f}")
+                print(f"Time: {t:.2f} \t NextArrival: {next_arrival:.2f}")
                 print(self)
                 # print state of all servers
                 [print(s) for s in self.servers]
@@ -230,11 +263,15 @@ class ServerlessSimulator:
                 else:
                     raise Exception(f"Unknown transition in states: {new_state}")
 
+        # after the trace loop, append the last time recorded
+        self.hist_times.append(t)
+
 
 
 
 if __name__ == "__main__":
-    sim = ServerlessSimulator(arrival_rate=0.3, warm_service_rate=1/2.05, cold_service_rate=1/2.2,
-            expiration_threshold=600, max_time=10000)
+    sim = ServerlessSimulator(arrival_rate=0.9, warm_service_rate=1/2.016, cold_service_rate=1/2.163,
+            expiration_threshold=600, max_time=100000)
     sim.generate_trace(debug_print=False)
+    sim.print_trace_results()
   
