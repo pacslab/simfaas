@@ -177,8 +177,27 @@ class ServerlessSimulator:
         self.running_count += 1
         self.schedule_warm_instance(t)
 
+    def get_trace_end(self):
+        return self.hist_times[-1]
+
+    def calculate_time_lengths(self):
+        self.time_lengths = np.diff(self.hist_times)
+
+    def get_average_server_count(self):
+        avg_server_count = (self.hist_server_count * self.time_lengths).sum() / self.get_trace_end()
+        return avg_server_count
+
+    def get_average_server_running_count(self):
+        avg_running_count = (self.hist_server_running_count * self.time_lengths).sum() / self.get_trace_end()
+        return avg_running_count
+
+    def get_average_server_idle_count(self):
+        avg_idle_count = (self.hist_server_idle_count * self.time_lengths).sum() / self.get_trace_end()
+        return avg_idle_count
 
     def print_trace_results(self):
+        self.calculate_time_lengths()
+
         print(f"Cold Starts / total requests: \t {self.total_cold_count} / {self.total_req_count}")
         print(f"Cold Start Probability: \t {self.total_cold_count / self.total_req_count:.4f}")
 
@@ -186,16 +205,12 @@ class ServerlessSimulator:
         life_spans = np.array([s.get_life_span() for s in self.prev_servers])
         print(f"Average Instance Life Span: \t {life_spans.mean():.4f}")
 
-        time_lengths = np.diff(self.hist_times)
         # average instance count
-        avg_server_count = (self.hist_server_count * time_lengths).sum() / self.hist_times[-1]
-        print(f"Average Server Count:  \t\t {avg_server_count:.4f}")
+        print(f"Average Server Count:  \t\t {self.get_average_server_count():.4f}")
         # average running count
-        avg_running_count = (self.hist_server_running_count * time_lengths).sum() / self.hist_times[-1]
-        print(f"Average Running Count:  \t {avg_running_count:.4f}")
+        print(f"Average Running Count:  \t {self.get_average_server_running_count():.4f}")
         # average idle count
-        avg_idle_count = (self.hist_server_idle_count * time_lengths).sum() / self.hist_times[-1]
-        print(f"Average Idle Count:  \t\t {avg_idle_count:.4f}")
+        print(f"Average Idle Count:  \t\t {self.get_average_server_idle_count():.4f}")
 
 
     def generate_trace(self, debug_print=False):
@@ -265,6 +280,7 @@ class ServerlessSimulator:
 
         # after the trace loop, append the last time recorded
         self.hist_times.append(t)
+        self.calculate_time_lengths()
 
 
 
