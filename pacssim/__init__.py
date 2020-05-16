@@ -8,3 +8,4 @@ __all__ = []
 from . import SimProcess
 from . import Utility
 from . import ServerlessSimulator
+from . import FunctionInstance

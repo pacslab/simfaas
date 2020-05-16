@@ -1,90 +1,8 @@
 # The main simulator for serverless computing platforms
 
 from pacssim.SimProcess import ExpSimProcess
+from pacssim.FunctionInstance import FunctionInstance
 import numpy as np
-
-class FunctionInstance:
-    def __init__(self, t, cold_service_process, warm_service_process, expiration_threshold):
-        super().__init__()
-
-        self.cold_service_process = cold_service_process
-        self.warm_service_process = warm_service_process
-        self.expiration_threshold = expiration_threshold
-
-        # life span calculations
-        self.creation_time = t
-
-        # set current state variables
-        self.state = 'COLD'
-        self.is_busy = True
-        self.is_cold = True
-
-        # calculate departure and expected termination on each arrival
-        self.next_departure = t + self.cold_service_process.generate_trace()
-        self.update_next_termination()
-
-    def __str__(self):
-        return f"State: {self.state} \t Departure: {self.next_departure:8.2f} \t Termination: {self.next_termination:8.2f}"
-
-    def get_life_span(self):
-        return self.next_termination - self.creation_time
-
-    def update_next_termination(self):
-        self.next_termination = self.next_departure + self.expiration_threshold
-
-    def get_life_span(self):
-        return self.next_termination - self.creation_time
-
-    def get_state(self):
-        return self.state
-
-    def arrival_transition(self, t):
-        if self.state == 'COLD' or self.state == 'WARM':
-            raise Exception('instance is already busy!')
-
-        elif self.state == 'IDLE':
-            self.state = 'WARM'
-            self.is_busy = True
-            self.next_departure = t + self.warm_service_process.generate_trace()
-            self.update_next_termination()
-
-    def is_idle(self):
-        return self.state == 'IDLE'
-
-    def make_transition(self):
-        # next transition is a departure
-        if self.state == 'COLD' or self.state == 'WARM':
-            self.state = 'IDLE'
-            self.is_busy = False
-            self.is_cold = False
-
-        # next transition is a termination
-        elif self.state == 'IDLE':
-            self.state = 'TERM'
-            self.is_busy = False
-
-        # if terminated
-        else:
-            raise Exception("Cannot make transition on terminated instance!")
-
-        return self.state
-
-    def get_next_transition_time(self, t=0):
-        # next transition would be termination
-        if self.state == 'IDLE':
-            return self.get_next_termination(t)
-        # next transition would be departure
-        return self.get_next_departure(t)
-
-    def get_next_departure(self, t):
-        if t > self.next_departure:
-            raise Exception("current time is after departure!")
-        return self.next_departure - t
-
-    def get_next_termination(self, t):
-        if t > self.next_termination:
-            raise Exception("current time is after termination!")
-        return self.next_termination - t
 
 class ServerlessSimulator:
     def __init__(self, arrival_process=None, warm_service_process=None, 
@@ -195,6 +113,9 @@ class ServerlessSimulator:
         avg_idle_count = (self.hist_server_idle_count * self.time_lengths).sum() / self.get_trace_end()
         return avg_idle_count
 
+    def get_index_after_time(self, t):
+        return np.min(np.where(np.array(self.hist_times) > t))
+
     def print_trace_results(self):
         self.calculate_time_lengths()
 
@@ -222,13 +143,24 @@ class ServerlessSimulator:
         for val, prob in zip(vals, probs):
             print(f"{str(val).ljust(column_width)} {prob:.4f}")
 
-    def calculate_time_average(self, values):
+    def calculate_time_average(self, values, skip_init_time=None, skip_init_index=None):
         assert len(values) == len(self.time_lengths), "Values shoud be same length as history array (number of transitions)"
+
+        # how many initial values should be skipped
+        skip_init = 0
+        if skip_init_time is not None:
+            skip_init = self.get_index_after_time(skip_init_time)
+        if skip_init_index is not None:
+            skip_init = max(skip_init, skip_init_index)
+
+        values = values[skip_init:]
+        time_lengths = self.time_lengths[skip_init:]
+
         # get unique values
         unq_vals = list(set(values))
         val_times = []
         for val in unq_vals:
-            t = self.time_lengths[[v == val for v in values]].sum()
+            t = time_lengths[[v == val for v in values]].sum()
             val_times.append(t)
 
         # convert to percent
