@@ -212,6 +212,29 @@ class ServerlessSimulator:
         # average idle count
         print(f"Average Idle Count:  \t\t {self.get_average_server_idle_count():.4f}")
 
+    def trace_condition(self, t):
+        return t < self.max_time
+
+    @staticmethod
+    def print_time_average(vals, probs, column_width=15):
+        print(f"{'Value'.ljust(column_width)} Prob")
+        print("".join(["="]*int(column_width*1.5)))
+        for val, prob in zip(vals, probs):
+            print(f"{str(val).ljust(column_width)} {prob:.4f}")
+
+    def calculate_time_average(self, values):
+        assert len(values) == len(self.time_lengths), "Values shoud be same length as history array (number of transitions)"
+        # get unique values
+        unq_vals = list(set(values))
+        val_times = []
+        for val in unq_vals:
+            t = self.time_lengths[[v == val for v in values]].sum()
+            val_times.append(t)
+
+        # convert to percent
+        val_times = np.array(val_times)
+        val_times = val_times / val_times.sum()
+        return unq_vals, val_times
 
     def generate_trace(self, debug_print=False):
         # reset trace values
@@ -219,7 +242,7 @@ class ServerlessSimulator:
 
         t = 0
         next_arrival = t + self.req()
-        while t < self.max_time:
+        while self.trace_condition(t):
             self.hist_times.append(t)
             self.hist_server_count.append(self.server_count)
             self.hist_server_running_count.append(self.running_count)
