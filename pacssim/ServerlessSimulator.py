@@ -133,6 +133,37 @@ class ServerlessSimulator:
     def get_index_after_time(self, t):
         return np.min(np.where(np.array(self.hist_times) > t))
 
+    def get_average_residence_times(self, hist_states, skip_init_time=None, skip_init_index=None):
+        # how many initial values should be skipped
+        skip_init = 0
+        if skip_init_time is not None:
+            skip_init = self.get_index_after_time(skip_init_time)
+        if skip_init_index is not None:
+            skip_init = max(skip_init, skip_init_index)
+
+        values = hist_states[skip_init:]
+        time_lengths = self.time_lengths[skip_init:]
+
+        residence_times = {}
+        curr_time_sum = time_lengths[0]
+        # encode states
+        for idx in range(1,len(values)):
+            if values[idx] == values[idx-1]:
+                curr_time_sum += time_lengths[idx]
+            else:
+                if values[idx-1] in residence_times:
+                    residence_times[values[idx-1]].append(curr_time_sum)
+                else:
+                    residence_times[values[idx-1]] = [curr_time_sum]
+                
+                curr_time_sum = time_lengths[idx]
+
+        residence_time_avgs = {}
+        for s in residence_times:
+            residence_time_avgs[s] = np.mean(residence_times[s])
+
+        return residence_time_avgs
+
     def print_trace_results(self):
         self.calculate_time_lengths()
 
@@ -140,7 +171,7 @@ class ServerlessSimulator:
         print(f"Cold Start Probability: \t {self.total_cold_count / self.total_req_count:.4f}")
 
         print(f"Rejection / total requests: \t {self.total_reject_count} / {self.total_req_count}")
-        print(f"Rejection Probability: \t {self.total_reject_count / self.total_req_count:.4f}")
+        print(f"Rejection Probability: \t\t {self.total_reject_count / self.total_req_count:.4f}")
 
         # average instance life span
         life_spans = np.array([s.get_life_span() for s in self.prev_servers])
