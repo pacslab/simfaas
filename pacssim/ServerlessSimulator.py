@@ -49,6 +49,7 @@ class ServerlessSimulator:
         self.total_req_count = 0
         self.total_cold_count = 0
         self.total_warm_count = 0
+        self.total_reject_count = 0
         # current state of instances
         self.servers = []
         self.server_count = 0
@@ -71,6 +72,12 @@ class ServerlessSimulator:
 
     def cold_start_arrival(self, t):
         self.total_req_count += 1
+
+        # reject request if maximum concurrency reached
+        if self.running_count == self.maximum_concurrency:
+            self.total_reject_count += 1
+            return
+
         self.total_cold_count += 1
 
         self.server_count += 1
@@ -79,9 +86,6 @@ class ServerlessSimulator:
         self.servers.append(new_server)
 
     def schedule_warm_instance(self, t):
-        self.total_req_count += 1
-        self.total_warm_count += 1
-
         idle_instances = [s for s in self.servers if s.is_idle()]
         creation_times = [s.creation_time for s in idle_instances]
         
@@ -89,13 +93,24 @@ class ServerlessSimulator:
         creation_times = np.array(creation_times)
         # find the newest instance
         idx = np.argmax(creation_times)
-        idle_instances[idx].arrival_transition(t)
+        return idle_instances[idx]
 
     def warm_start_arrival(self, t):
+        self.total_req_count += 1
+
+        # reject request if maximum concurrency reached
+        if self.running_count == self.maximum_concurrency:
+            self.total_reject_count += 1
+            return
+
+        # schedule the request
+        instance = self.schedule_warm_instance(t)
+        instance.arrival_transition(t)
+
         # transition from idle to running
+        self.total_warm_count += 1
         self.idle_count -= 1
         self.running_count += 1
-        self.schedule_warm_instance(t)
 
     def get_trace_end(self):
         return self.hist_times[-1]
@@ -123,6 +138,9 @@ class ServerlessSimulator:
 
         print(f"Cold Starts / total requests: \t {self.total_cold_count} / {self.total_req_count}")
         print(f"Cold Start Probability: \t {self.total_cold_count / self.total_req_count:.4f}")
+
+        print(f"Rejection / total requests: \t {self.total_reject_count} / {self.total_req_count}")
+        print(f"Rejection Probability: \t {self.total_reject_count / self.total_req_count:.4f}")
 
         # average instance life span
         life_spans = np.array([s.get_life_span() for s in self.prev_servers])
