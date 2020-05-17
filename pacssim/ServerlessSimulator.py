@@ -6,7 +6,8 @@ import numpy as np
 
 class ServerlessSimulator:
     def __init__(self, arrival_process=None, warm_service_process=None, 
-            cold_service_process=None, expiration_threshold=600, max_time=24*60*60, **kwargs):
+            cold_service_process=None, expiration_threshold=600, max_time=24*60*60,
+            maximum_concurrency=1000, **kwargs):
         super().__init__()
         
         # setup arrival process
@@ -40,6 +41,7 @@ class ServerlessSimulator:
 
         self.expiration_threshold = expiration_threshold
         self.max_time = max_time
+        self.maximum_concurrency = maximum_concurrency
 
     def reset_trace(self):
         # an archive of previous servers
