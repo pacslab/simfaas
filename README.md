@@ -1,9 +1,9 @@
 # Serverless Performance Simulator
 
-![PyPI](https://img.shields.io/pypi/v/pacs-sls-sim.svg)
-![PyPI - Status](https://img.shields.io/pypi/status/pacs-sls-sim.svg)
+![PyPI](https://img.shields.io/pypi/v/pacssim.svg)
+![PyPI - Status](https://img.shields.io/pypi/status/pacssim.svg)
 ![Travis (.com)](https://img.shields.io/travis/com/nimamahmoudi/serverless-performance-simulator.svg)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/pacs-sls-sim.svg)
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/pacssim.svg)
 ![GitHub](https://img.shields.io/github/license/nimamahmoudi/serverless-performance-simulator.svg)
 
 This is a project done in [PACS Lab](https://pacs.eecs.yorku.ca/) aiming to develop
@@ -34,13 +34,13 @@ modern scale-per request serverless platforms.
 Install using pip:
 
 ```sh
-pip install pacs-sls-sim
+pip install pacssim
 ```
 
 Upgrading using pip:
 
 ```sh
-pip install pacs-sls-sim --upgrade
+pip install pacssim --upgrade
 ```
 
 For installation in development mode:
