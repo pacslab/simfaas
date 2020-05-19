@@ -133,7 +133,7 @@ class ServerlessSimulator:
     def get_index_after_time(self, t):
         return np.min(np.where(np.array(self.hist_times) > t))
 
-    def get_average_residence_times(self, hist_states, skip_init_time=None, skip_init_index=None):
+    def analyze_custom_states(self, hist_states, skip_init_time=None, skip_init_index=None):
         # how many initial values should be skipped
         skip_init = 0
         if skip_init_time is not None:
@@ -145,6 +145,7 @@ class ServerlessSimulator:
         time_lengths = self.time_lengths[skip_init:]
 
         residence_times = {}
+        transition_times = {}
         curr_time_sum = time_lengths[0]
         # encode states
         for idx in range(1,len(values)):
@@ -155,8 +156,19 @@ class ServerlessSimulator:
                     residence_times[values[idx-1]].append(curr_time_sum)
                 else:
                     residence_times[values[idx-1]] = [curr_time_sum]
+
+                transition_pair = (values[idx-1], values[idx])
+                if transition_pair in transition_times:
+                    transition_times[transition_pair].append(curr_time_sum)
+                else:
+                    transition_times[transition_pair] = [curr_time_sum]
                 
                 curr_time_sum = time_lengths[idx]
+
+        return residence_times, transition_times
+
+    def get_average_residence_times(self, hist_states, skip_init_time=None, skip_init_index=None):
+        residence_times, _ = self.analyze_custom_states(hist_states, skip_init_time, skip_init_index)
 
         residence_time_avgs = {}
         for s in residence_times:
