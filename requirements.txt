@@ -3,3 +3,4 @@ matplotlib==3.2.1
 pandas==1.0.3
 modin[dask]==0.7.3
 scipy==1.4.1
+tqdm==4.46.0

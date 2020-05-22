@@ -4,6 +4,8 @@ from pacssim.SimProcess import ExpSimProcess
 from pacssim.FunctionInstance import FunctionInstance
 import numpy as np
 
+from tqdm import tqdm
+
 class ServerlessSimulator:
     def __init__(self, arrival_process=None, warm_service_process=None, 
             cold_service_process=None, expiration_threshold=600, max_time=24*60*60,
@@ -231,13 +233,23 @@ class ServerlessSimulator:
         val_times = val_times / val_times.sum()
         return unq_vals, val_times
 
-    def generate_trace(self, debug_print=False):
+    def generate_trace(self, debug_print=False, progress=False):
         # reset trace values
         self.reset_trace()
 
+        pbar = None
+        if progress:
+            pbar = tqdm(total=self.max_time)
+
         t = 0
+        pbar_t_update = 0
+        pbar_interval = self.max_time / 100
         next_arrival = t + self.req()
         while self.trace_condition(t):
+            if progress:
+                if (t - pbar_t_update) > pbar_interval:
+                    pbar.update(t - pbar_t_update)
+                    pbar_t_update = t
             self.hist_times.append(t)
             self.hist_server_count.append(self.server_count)
             self.hist_server_running_count.append(self.running_count)
@@ -299,6 +311,9 @@ class ServerlessSimulator:
         # after the trace loop, append the last time recorded
         self.hist_times.append(t)
         self.calculate_time_lengths()
+        if progress:
+            pbar.close()
+        
 
 
 
