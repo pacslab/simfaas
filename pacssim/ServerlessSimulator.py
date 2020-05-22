@@ -3,6 +3,7 @@
 from pacssim.SimProcess import ExpSimProcess
 from pacssim.FunctionInstance import FunctionInstance
 import numpy as np
+import pandas as pd
 
 from tqdm import tqdm
 
@@ -143,13 +144,53 @@ class ServerlessSimulator:
     def get_index_after_time(self, t):
         return np.min(np.where(np.array(self.hist_times) > t))
 
-    def analyze_custom_states(self, hist_states, skip_init_time=None, skip_init_index=None):
+    def get_skip_init(self, skip_init_time=None, skip_init_index=None):
         # how many initial values should be skipped
         skip_init = 0
         if skip_init_time is not None:
             skip_init = self.get_index_after_time(skip_init_time)
         if skip_init_index is not None:
             skip_init = max(skip_init, skip_init_index)
+        return skip_init
+
+    def get_request_custom_states(self, hist_states, skip_init_time=None, skip_init_index=None):
+        req_skip_init = self.get_skip_init(skip_init_time=skip_init_time, 
+                                        skip_init_index=skip_init_index)
+
+        state_req_colds = {}
+        state_req_warm = {}
+        state_req_rejs = {}
+        for s in hist_states[req_skip_init:]:
+            if s not in state_req_colds:
+                state_req_colds[s] = 0
+                state_req_warm[s] = 0
+                state_req_rejs[s] = 0
+
+        hist_req_cold = [i for i in self.hist_req_cold_idxs if i > req_skip_init]
+        hist_req_warm = [i for i in self.hist_req_warm_idxs if i > req_skip_init]
+        hist_req_rej = [i for i in self.hist_req_rej_idxs if i > req_skip_init]
+
+
+        for idx in hist_req_cold:
+            state_req_colds[hist_states[idx]] += 1
+        for idx in hist_req_warm:
+            state_req_warm[hist_states[idx]] += 1
+        for idx in hist_req_rej:
+            state_req_warm[hist_states[idx]] += 1
+
+        states = list(state_req_colds.keys())
+        state_req_colds = list(state_req_colds.values())
+        state_req_warm = list(state_req_warm.values())
+        state_req_rejs = list(state_req_rejs.values())
+
+        reqdf = pd.DataFrame(data = {'state': states, 'cold': state_req_colds, 'warm': state_req_warm, 'rej': state_req_rejs})
+        reqdf['total'] = reqdf['cold'] + reqdf['warm'] + reqdf['rej']
+        reqdf['p_cold'] = reqdf['cold'] / reqdf['total']
+        return reqdf
+
+    def analyze_custom_states(self, hist_states, skip_init_time=None, skip_init_index=None):
+        skip_init = self.get_skip_init(skip_init_time=skip_init_time, 
+                                        skip_init_index=skip_init_index)
 
         values = hist_states[skip_init:]
         time_lengths = self.time_lengths[skip_init:]
@@ -222,12 +263,8 @@ class ServerlessSimulator:
     def calculate_time_average(self, values, skip_init_time=None, skip_init_index=None):
         assert len(values) == len(self.time_lengths), "Values shoud be same length as history array (number of transitions)"
 
-        # how many initial values should be skipped
-        skip_init = 0
-        if skip_init_time is not None:
-            skip_init = self.get_index_after_time(skip_init_time)
-        if skip_init_index is not None:
-            skip_init = max(skip_init, skip_init_index)
+        skip_init = self.get_skip_init(skip_init_time=skip_init_time, 
+                                        skip_init_index=skip_init_index)
 
         values = values[skip_init:]
         time_lengths = self.time_lengths[skip_init:]
