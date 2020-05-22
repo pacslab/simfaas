@@ -62,6 +62,9 @@ class ServerlessSimulator:
         self.hist_server_count = []
         self.hist_server_running_count = []
         self.hist_server_idle_count = []
+        self.hist_req_cold_idxs = []
+        self.hist_req_warm_idxs = []
+        self.hist_req_rej_idxs = []
 
     def has_server(self):
         return len(self.servers) > 0
@@ -78,9 +81,11 @@ class ServerlessSimulator:
         # reject request if maximum concurrency reached
         if self.running_count == self.maximum_concurrency:
             self.total_reject_count += 1
+            self.hist_req_rej_idxs.append(len(self.hist_times) - 1)
             return
 
         self.total_cold_count += 1
+        self.hist_req_cold_idxs.append(len(self.hist_times) - 1)
 
         self.server_count += 1
         self.running_count += 1
@@ -103,7 +108,10 @@ class ServerlessSimulator:
         # reject request if maximum concurrency reached
         if self.running_count == self.maximum_concurrency:
             self.total_reject_count += 1
+            self.hist_req_rej_idxs.append(len(self.hist_times) - 1)
             return
+
+        self.hist_req_warm_idxs.append(len(self.hist_times) - 1)
 
         # schedule the request
         instance = self.schedule_warm_instance(t)
@@ -167,7 +175,7 @@ class ServerlessSimulator:
                 
                 curr_time_sum = time_lengths[idx]
 
-        return residence_times, transition_times
+        return residence_times, transition_times, skip_init
 
     def get_average_residence_times(self, hist_states, skip_init_time=None, skip_init_index=None):
         residence_times, _ = self.analyze_custom_states(hist_states, skip_init_time, skip_init_index)
