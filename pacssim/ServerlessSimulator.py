@@ -178,6 +178,9 @@ class ServerlessSimulator:
 
         return residence_time_avgs
 
+    def get_cold_start_prob(self):
+        return self.total_cold_count / self.total_req_count
+
     def print_trace_results(self):
         self.calculate_time_lengths()
 
