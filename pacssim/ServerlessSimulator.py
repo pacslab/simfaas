@@ -216,7 +216,7 @@ class ServerlessSimulator:
                 
                 curr_time_sum = time_lengths[idx]
 
-        return residence_times, transition_times, skip_init
+        return residence_times, transition_times
 
     def get_average_residence_times(self, hist_states, skip_init_time=None, skip_init_index=None):
         residence_times, _ = self.analyze_custom_states(hist_states, skip_init_time, skip_init_index)

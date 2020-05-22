@@ -126,3 +126,5 @@ dmypy.json
 README.rst
 .vscode
 output.log
+
+dask-worker-space
