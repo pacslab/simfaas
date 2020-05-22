@@ -239,17 +239,17 @@ class ServerlessSimulator:
 
         pbar = None
         if progress:
-            pbar = tqdm(total=self.max_time)
+            pbar = tqdm(total=int(self.max_time))
 
         t = 0
         pbar_t_update = 0
-        pbar_interval = self.max_time / 100
+        pbar_interval = int(self.max_time / 100)
         next_arrival = t + self.req()
         while self.trace_condition(t):
             if progress:
-                if (t - pbar_t_update) > pbar_interval:
-                    pbar.update(t - pbar_t_update)
-                    pbar_t_update = t
+                if int(t - pbar_t_update) > pbar_interval:
+                    pbar.update(int(t) - pbar_t_update)
+                    pbar_t_update = int(t)
             self.hist_times.append(t)
             self.hist_server_count.append(self.server_count)
             self.hist_server_running_count.append(self.running_count)
@@ -312,6 +312,7 @@ class ServerlessSimulator:
         self.hist_times.append(t)
         self.calculate_time_lengths()
         if progress:
+            pbar.update(int(self.max_time) - pbar_t_update)
             pbar.close()
         
 
@@ -321,6 +322,6 @@ class ServerlessSimulator:
 if __name__ == "__main__":
     sim = ServerlessSimulator(arrival_rate=0.9, warm_service_rate=1/2.016, cold_service_rate=1/2.163,
             expiration_threshold=600, max_time=100000)
-    sim.generate_trace(debug_print=False)
+    sim.generate_trace(debug_print=False, progress=True)
     sim.print_trace_results()
   
