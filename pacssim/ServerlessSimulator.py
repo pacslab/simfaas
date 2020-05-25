@@ -46,6 +46,9 @@ class ServerlessSimulator:
         self.max_time = max_time
         self.maximum_concurrency = maximum_concurrency
 
+        # reset trace values
+        self.reset_trace()
+
     def reset_trace(self):
         # an archive of previous servers
         self.prev_servers = []
@@ -282,9 +285,6 @@ class ServerlessSimulator:
         return unq_vals, val_times
 
     def generate_trace(self, debug_print=False, progress=False):
-        # reset trace values
-        self.reset_trace()
-
         pbar = None
         if progress:
             pbar = tqdm(total=int(self.max_time))
