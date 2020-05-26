@@ -9,7 +9,7 @@ from pacssim.ServerlessTemporalSimulator import ServerlessTemporalSimulator
 from tqdm import tqdm
 import numpy as np
 import struct
-from threading import Thread
+import multiprocessing
 
 cold_service_rate = 1/2.163
 warm_service_rate = 1/2.016
@@ -70,7 +70,7 @@ if len(sys.argv) > 1:
     int(port)
 socket_addr = "tcp://127.0.0.1:%s" % port
 
-worker_count = 32
+worker_count = 9
 stop_signal = False
 def worker(context=None, name="worker"):
     context = context or zmq.Context.instance()
@@ -92,23 +92,17 @@ def worker(context=None, name="worker"):
             
             worker.send_multipart([ident, msg])
 
-# t = Thread(target=worker)
-# t.start()
+if __name__ == "__main__":
+    worker_names = [f"worker-{i}" for i in range(worker_count)]
+    worker_threads = [multiprocessing.Process(target=worker, args=(None,n)) for n in worker_names]
+    _ = [t.start() for t in worker_threads]
 
-worker_names = [f"worker-{i}" for i in range(worker_count)]
-worker_funcs = [lambda context=None,name=n: worker(context=context, name=name) for n in worker_names]
-worker_threads = [Thread(target=f) for f in worker_funcs]
-_ = [t.start() for t in worker_threads]
-
-# wait for threads to stabilize
-# time.sleep(5)
-
-while True:
-    try:
-        time.sleep(1)
-    except KeyboardInterrupt:
-        print("Ctrl-c pressed!")
-        stop_signal = True
-        [t.join() for t in worker_threads]
-        break
+    while True:
+        try:
+            time.sleep(1)
+        except KeyboardInterrupt:
+            print("Ctrl-c pressed!")
+            stop_signal = True
+            [t.join() for t in worker_threads]
+            break
 
