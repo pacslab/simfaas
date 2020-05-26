@@ -10,7 +10,6 @@ if len(sys.argv) > 1:
 context = zmq.Context()
 print("Connecting to server...")
 socket = context.socket(zmq.DEALER)
-socket.setsockopt(zmq.IDENTITY, b'A')
 socket.connect("tcp://127.0.0.1:%s" % port)
 
 poller = zmq.Poller()
@@ -21,7 +20,11 @@ while True:
     print(socks)
 
     if socket in socks and socks[socket] == zmq.POLLIN:
-        print("Message from socket: %s" % socket.recv())
+        # ident, message = socket.recv_multipart()
+        # print(f"Message from {ident.decode()}: {message}")
+        print("Message from socket: %s" % socket.recv_multipart())
+        # print("Message from socket: %s" % socket.recv())
         time.sleep(.1)
-        socket.send(("World from %s" % port).encode())
+        # socket.send_multipart([b"master", ("World from %s" % port).encode()])
+        socket.send_multipart([("World from %s" % port).encode()])
     
