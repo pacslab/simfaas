@@ -20,11 +20,7 @@ while True:
     print(socks)
 
     if socket in socks and socks[socket] == zmq.POLLIN:
-        # ident, message = socket.recv_multipart()
-        # print(f"Message from {ident.decode()}: {message}")
         print("Message from socket: %s" % socket.recv_multipart())
-        # print("Message from socket: %s" % socket.recv())
         time.sleep(.1)
-        # socket.send_multipart([b"master", ("World from %s" % port).encode()])
         socket.send_multipart([("World from %s" % port).encode()])
     
