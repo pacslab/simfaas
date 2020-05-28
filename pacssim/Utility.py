@@ -8,7 +8,9 @@ def convert_hist_pdf(_values, num_bins):
     base = np.append([0, base[0]], base[:-1])
     cumulative = np.append([0, 0], cumulative)
     values = np.append([0, 0], values)
-    values = values / np.sum(values) / bin_size
+    values = values / np.sum(values)
+    if bin_size > 0:
+        values /= bin_size
 
     base += bin_size/2
 

@@ -62,7 +62,21 @@ class ExpSimProcess(SimProcess):
     def generate_trace(self):
         return np.random.exponential(1/self.rate)
 
+
+class ConstSimProcess(SimProcess):
+    def __init__(self, rate):
+        super().__init__()
+
+        self.has_pdf = False
+        self.has_cdf = False
+        self.rate = rate
+
+    def generate_trace(self):
+        return 1/self.rate
+
 if __name__ == "__main__":
+    print([ConstSimProcess(rate=5).generate_trace() for _ in range(10)])
+
     exp_arr = ExpSimProcess(rate=5)
     exp_arr.visualize(num_traces=10000, num_bins=100)
     plt.show()
