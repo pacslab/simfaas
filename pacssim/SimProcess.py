@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import expon, poisson
+from scipy.stats import expon, poisson, norm
 
 from pacssim.Utility import convert_hist_pdf
 
@@ -74,8 +74,29 @@ class ConstSimProcess(SimProcess):
     def generate_trace(self):
         return 1/self.rate
 
+
+class GaussianSimProcess(SimProcess):
+    def __init__(self, rate, std):
+        super().__init__()
+        self.has_pdf = True
+        self.has_cdf = True
+        self.rate = rate
+        self.std = std
+
+    def generate_trace(self):
+        return max(0, np.random.normal(loc=1/self.rate, scale=self.std))
+
+    def pdf(self, x):
+        return norm.pdf(x, loc=1/self.rate, scale=self.std)
+
+    def cdf(self, x):
+        return norm.cdf(x, loc=1/self.rate, scale=self.std)
+
 if __name__ == "__main__":
     print([ConstSimProcess(rate=5).generate_trace() for _ in range(10)])
+
+    GaussianSimProcess(rate=5, std=0.01).visualize(num_traces=10000, num_bins=100)
+    plt.show()
 
     exp_arr = ExpSimProcess(rate=5)
     exp_arr.visualize(num_traces=10000, num_bins=100)
