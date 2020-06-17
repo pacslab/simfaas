@@ -13,7 +13,7 @@ class ServerlessTemporalSimulator(ServerlessSimulator):
                  cold_service_process=None, expiration_threshold=600, max_time=24*60*60,
                  maximum_concurrency=1000, **kwargs):
 
-        super(ServerlessTemporalSimulator, self).__init__(arrival_process=arrival_process,
+        super().__init__(arrival_process=arrival_process,
                          warm_service_process=warm_service_process,
                          cold_service_process=cold_service_process,
                          expiration_threshold=expiration_threshold,
@@ -79,7 +79,7 @@ class ExponentialServerlessTemporalSimulator(ServerlessTemporalSimulator):
 
             running_functions.append(f)
 
-        super(ExponentialServerlessTemporalSimulator, self).__init__(
+        super().__init__(
             running_function_instances=running_functions,
             idle_function_instances=idle_functions,
             arrival_process=arrival_process,
