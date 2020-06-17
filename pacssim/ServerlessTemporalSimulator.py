@@ -9,17 +9,9 @@ from pacssim.ServerlessSimulator import ServerlessSimulator
 
 class ServerlessTemporalSimulator(ServerlessSimulator):
     def __init__(self, running_function_instances, idle_function_instances,
-                 arrival_process=None, warm_service_process=None,
-                 cold_service_process=None, expiration_threshold=600, max_time=24*60*60,
-                 maximum_concurrency=1000, **kwargs):
+                 *args, **kwargs):
 
-        super().__init__(arrival_process=arrival_process,
-                         warm_service_process=warm_service_process,
-                         cold_service_process=cold_service_process,
-                         expiration_threshold=expiration_threshold,
-                         max_time=max_time,
-                         maximum_concurrency=maximum_concurrency,
-                         **kwargs)
+        super().__init__(*args, **kwargs)
 
         init_running_count = len(running_function_instances)
         init_idle_count = len(idle_function_instances)
@@ -41,9 +33,7 @@ class ExponentialServerlessTemporalSimulator(ServerlessTemporalSimulator):
         if they receive no new requests.
     """
     def __init__(self, running_function_instance_count, idle_function_instance_next_terminations,
-                 arrival_process=None, warm_service_process=None,
-                 cold_service_process=None, expiration_threshold=600, max_time=24*60*60,
-                 maximum_concurrency=1000, **kwargs):
+                 *args, **kwargs):
 
         cold_service_process = ExpSimProcess(rate=cold_service_rate)
         warm_service_process = ExpSimProcess(rate=warm_service_rate)
@@ -82,13 +72,7 @@ class ExponentialServerlessTemporalSimulator(ServerlessTemporalSimulator):
         super().__init__(
             running_function_instances=running_functions,
             idle_function_instances=idle_functions,
-            arrival_process=arrival_process,
-            warm_service_process=warm_service_process,
-            cold_service_process=cold_service_process,
-            expiration_threshold=expiration_threshold,
-            max_time=max_time,
-            maximum_concurrency=maximum_concurrency,
-            **kwargs
+            *args, **kwargs
         )
 
 
