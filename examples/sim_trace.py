@@ -3,6 +3,7 @@ import numpy as np
 from pacssim.SimProcess import ExpSimProcess
 from pacssim.FunctionInstance import FunctionInstance
 from pacssim.ServerlessTemporalSimulator import ServerlessTemporalSimulator
+from pacssim.ServerlessSimulator import ServerlessSimulator
 
 cold_service_rate = 1/2.163
 warm_service_rate = 1/2.016
@@ -16,6 +17,13 @@ idle_function_count = 5
 
 cold_service_process = ExpSimProcess(rate=cold_service_rate)
 warm_service_process = ExpSimProcess(rate=warm_service_rate)
+
+def generate_trace_api(data):
+    sim = ServerlessSimulator(**data)
+    sim.generate_trace(debug_print=False, progress=False)
+    results = sim.get_result_dict()
+    results.update(data)
+    return results
 
 def generate_trace():
     idle_functions = []

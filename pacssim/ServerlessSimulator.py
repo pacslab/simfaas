@@ -233,6 +233,26 @@ class ServerlessSimulator:
     def get_cold_start_prob(self):
         return self.total_cold_count / self.total_req_count
 
+
+    def get_average_lifespan(self):
+        life_spans = np.array([s.get_life_span() for s in self.prev_servers])
+        return life_spans.mean()
+
+    
+    def get_result_dict(self):
+        return {
+            "reqs_cold": self.total_cold_count,
+            "reqs_total": self.total_req_count,
+            "reqs_warm": self.total_warm_count,
+            "prob_cold": self.get_cold_start_prob(),
+            "reqs_reject": self.total_reject_count,
+            "prob_reject": self.total_reject_count / self.total_req_count,
+            "lifespan_avg": self.get_average_lifespan(),
+            "inst_count_avg": self.get_average_server_count(),
+            "inst_running_count_avg": self.get_average_server_running_count(),
+            "inst_idle_count_avg": self.get_average_server_idle_count(),
+        }
+
     def print_trace_results(self):
         self.calculate_time_lengths()
 

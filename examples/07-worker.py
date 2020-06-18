@@ -1,11 +1,12 @@
 import zmq
 import time
 import sys
+import pickle
 
 import struct
 import multiprocessing
 
-from examples.sim_trace import generate_trace
+from examples.sim_trace import generate_trace_api
 
 port = "5556"
 if len(sys.argv) > 1:
@@ -30,8 +31,11 @@ def worker(context=None, name="worker"):
         if worker in socks and socks[worker] == zmq.POLLIN:
             ident, message = worker.recv_multipart()
             
+            data = pickle.loads(message)
+
             # calculate trace
-            msg = struct.pack("d", generate_trace())
+            msg = generate_trace_api(data)
+            msg = pickle.dumps(msg)
             
             worker.send_multipart([ident, msg])
 
