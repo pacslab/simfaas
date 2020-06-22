@@ -3,7 +3,7 @@
 # Serverless Performance Simulator
 
 [![PyPI](https://img.shields.io/pypi/v/pacssim.svg)](https://pypi.org/project/pacssim/)
-[![PyPI - Status](https://img.shields.io/pypi/status/pacssim.svg)](https://pypi.org/project/pacssim/)
+![PyPI - Status](https://img.shields.io/pypi/status/pacssim.svg)
 ![Travis (.com)](https://img.shields.io/travis/com/nimamahmoudi/serverless-performance-simulator.svg)
 [![Documentation Status](https://readthedocs.org/projects/serverless-performance-simulator/badge/?version=latest)](https://serverless-performance-simulator.readthedocs.io/en/latest/?badge=latest)
 ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/pacssim.svg)
