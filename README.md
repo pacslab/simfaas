@@ -1,7 +1,6 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nimamahmoudi/serverless-performance-simulator/production?urlpath=lab%2Ftree%2Fexamples%2F)
-
 # Serverless Performance Simulator
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nimamahmoudi/serverless-performance-simulator/production?urlpath=lab%2Ftree%2Fexamples%2F)
 [![PyPI](https://img.shields.io/pypi/v/pacssim.svg)](https://pypi.org/project/pacssim/)
 ![PyPI - Status](https://img.shields.io/pypi/status/pacssim.svg)
 ![Travis (.com)](https://img.shields.io/travis/com/nimamahmoudi/serverless-performance-simulator.svg)
