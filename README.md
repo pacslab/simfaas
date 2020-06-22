@@ -53,7 +53,32 @@ pip install -e .
 
 ## Usage
 
-comming soon...
+A simple usage of the serverless simulator is shown in the following:
+
+```py
+from pacssim.ServerlessSimulator import ServerlessSimulator as Sim
+
+sim = Sim(arrival_rate=0.9, warm_service_rate=1/1.991, cold_service_rate=1/2.244,
+            expiration_threshold=600, max_time=1e6)
+sim.generate_trace(debug_print=False, progress=True)
+sim.print_trace_results()
+```
+
+Which prints an output similar to the following:
+
+```
+100%|██████████| 1000000/1000000 [00:42<00:00, 23410.45it/s]
+Cold Starts / total requests:	 1213 / 898469
+Cold Start Probability: 	     0.0014
+Rejection / total requests:      0 / 898469
+Rejection Probability: 		     0.0000
+Average Instance Life Span:      6335.1337
+Average Server Count:  		     7.6612
+Average Running Count:  	     1.7879
+Average Idle Count:  		     5.8733
+```
+
+Using this information, you can predict the behaviour of your system in production.
 
 ## Development
 
@@ -76,9 +101,7 @@ bash .travis/readme_prep.sh
 
 ## Examples
 
-```py
-# comming soon...
-```
+Some of the possible use cases of the serverless performance simulator are shown in the `examples` folder in our Github repository.
 
 ## License
 
@@ -88,7 +111,7 @@ MIT (c) 2020 Nima Mahmoudi & Hamzeh Khazaei
 
 ## Citation
 
-You can find the paper with details of the proposed model in [PACS lab website](https://pacs.eecs.yorku.ca/publications/). You can use the following bibtex entry:
+You can find the paper with details of the simultor in [PACS lab website](https://pacs.eecs.yorku.ca/publications/). You can use the following bibtex entry for citing our work:
 
 ```bib
 Coming soon...

@@ -1,0 +1,21 @@
+language: python
+python:
+- '3.6'
+install:
+- pip install -r requirements.txt
+- pip install .
+script:
+- python -u pacssim/ServerlessSimulator.py
+before_deploy:
+# convert readme file
+- bash .travis/readme_prep.sh
+deploy:
+  provider: pypi
+  username: nima_mahmoudi
+  distributions: sdist bdist_wheel
+  skip_existing: true
+  skip_cleanup: true
+  password:
+    secure: I8LgTra/yw2fTsONVPr6TZdV+r2e1y3AsLT12M/4CtWJPBSA7GEui4SXQh7dbqH+KKgO1aMj9wsH9zoOMAziGYTalSqPoYpl+vsRWA281DeayLKi2q9L1utab+ZIAvbBn4dInD7BDQwbc+lMs5GebbsZYX7eYHkcZVXpmBZwevtjDBZmOAvxWEhCy+JgHXCIVklS9PzHupbNaAfmHEzSrigXaWwwaUJ3mJCWPD/Al6HcwZ9I2XKbhn2v2KU0xdEIg1ouyJxIgoAZchh8GwJS9+kZBupZsXACywrE7imzG20b3vJuYz5Pr+YmNtXZFpXFcrg/SIEe5HRRBR3GQD5B5kIrK34+XoeFurw13Ue73gMDs5YGfG8XyhCtZOtb9T8eFhXG0XQmodu5VHTqR0qA+xfDt3VNJJn+788BYHBI4Ud842C3WMaNdBiS9Hjs3tPguGDsgJsuYVp9FHwRanjsUZ8lUs5qF9/W3H7dsQNeIPrN16cZ7PgFe3EIaCpPOiB8Vo1iWljQ63ENoleG33/WNBuEJEGzaGy5bFtjSpifSleYJslbeBKpTa0kMogX78d8tiUHZe7wp3MrJp9uGNEpnpfHuCrBBIIBV1jerbT1AKfBJt0DV6nw+2PWS6t9nmlazk1pZXN07tH9uY+8x20rzFExl4hM+OQnL+W8WyvqO9A=
+  on:
+    branch: production
