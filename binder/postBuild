@@ -3,7 +3,3 @@
 pip install -r requirements.txt
 pip install -e .
 pip install -r examples/requirements.txt
-
-pip install jupyterlab "ipywidgets>=7.5"
-jupyter labextension install jupyterlab-plotly@4.8.1
-jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.8.1
