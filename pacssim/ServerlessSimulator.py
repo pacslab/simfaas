@@ -8,6 +8,34 @@ import pandas as pd
 from tqdm import tqdm
 
 class ServerlessSimulator:
+    """ServerlessSimulator is responsible for executing simulations of a sample serverless computing platform, mainly for the performance analysis and performance model evaluation purposes.
+
+    Parameters
+    ----------
+    arrival_process : pacssim.SimProcess.SimProcess, optional
+        The process used for generating inter-arrival samples, if absent, `arrival_rate` should be passed to signal exponential distribution, by default None
+    warm_service_process : pacssim.SimProcess.SimProcess, optional
+        The process which will be used to calculate service times, if absent, `warm_service_rate` should be passed to signal exponential distribution, by default None
+    cold_service_process : pacssim.SimProcess.SimProcess, optional
+        The process which will be used to calculate service times, if absent, `cold_service_rate` should be passed to signal exponential distribution, by default None
+    expiration_threshold : float, optional
+        The period of time after which the instance will be expired and the capacity release for use by others, by default 600
+    max_time : float, optional
+        The maximum amount of time for which the simulation should continue, by default 24*60*60 (24 hours)
+    maximum_concurrency : int, optional
+        The maximum number of concurrently executing function instances allowed on the system This will be used to determine when a rejection of request should happen due to lack of capacity, by default 1000
+
+    Raises
+    ------
+    Exception
+        Raises if neither arrival_process nor arrival_rate are present
+    Exception
+        Raises if neither warm_service_process nor warm_service_rate are present
+    Exception
+        Raises if neither cold_service_process nor cold_service_rate are present
+    ValueError
+        Raises if warm_service_rate is smaller than cold_service_rate
+    """
     def __init__(self, arrival_process=None, warm_service_process=None, 
             cold_service_process=None, expiration_threshold=600, max_time=24*60*60,
             maximum_concurrency=1000, **kwargs):
@@ -26,7 +54,7 @@ class ServerlessSimulator:
         # then, warm service rate should be larger than cold service rate
         if 'warm_service_rate' in kwargs and 'cold_service_rate' in kwargs:
             if kwargs.get('warm_service_rate') < kwargs.get('cold_service_rate'):
-                raise Exception("Warm service rate cannot be smaller than cold service rate!")
+                raise ValueError("Warm service rate cannot be smaller than cold service rate!")
 
         # setup warm service process
         self.warm_service_process = warm_service_process
@@ -50,6 +78,8 @@ class ServerlessSimulator:
         self.reset_trace()
 
     def reset_trace(self):
+        """resets all the historical data to prepare the class for a new simulation
+        """
         # an archive of previous servers
         self.prev_servers = []
         self.total_req_count = 0
@@ -71,15 +101,36 @@ class ServerlessSimulator:
         self.hist_req_rej_idxs = []
 
     def has_server(self):
+        """Returns True if there are still instances (servers) in the simulated platform, False otherwise.
+
+        Returns
+        -------
+        bool
+            Whether or not the platform has instances (servers)
+        """
         return len(self.servers) > 0
 
     def __str__(self):
         return f"idle/running/total: \t {self.idle_count}/{self.running_count}/{self.server_count}"
 
     def req(self):
+        """Generate a request inter-arrival from `self.arrival_process`
+
+        Returns
+        -------
+        float
+            The generated inter-arrival sample
+        """
         return self.arrival_process.generate_trace()
 
     def cold_start_arrival(self, t):
+        """Goes through the process necessary for a cold start arrival which includes generation of a new function instance in the `COLD` state and adding it to the cluster.
+
+        Parameters
+        ----------
+        t : float
+            The time at which the arrival has happened. This is used to record the creation time for the server and schedule the expiration of the instance if necessary.
+        """
         self.total_req_count += 1
 
         # reject request if maximum concurrency reached
@@ -97,6 +148,18 @@ class ServerlessSimulator:
         self.servers.append(new_server)
 
     def schedule_warm_instance(self, t):
+        """Goes through a process to determine which warm instance should process the incoming request.
+
+        Parameters
+        ----------
+        t : float
+            The time at which the scheduling is happening
+
+        Returns
+        -------
+        pacssim.FunctionInstance.FunctionInstance
+            The function instances that the scheduler has selected for the incoming request.
+        """
         idle_instances = [s for s in self.servers if s.is_idle()]
         creation_times = [s.creation_time for s in idle_instances]
         
@@ -107,6 +170,13 @@ class ServerlessSimulator:
         return idle_instances[idx]
 
     def warm_start_arrival(self, t):
+        """Goes through the process necessary for a warm start arrival which includes selecting a warm instance for processing and recording the request information.
+
+        Parameters
+        ----------
+        t : float
+            The time at which the arrival has happened. This is used to record the creation time for the server and schedule the expiration of the instance if necessary.
+        """
         self.total_req_count += 1
 
         # reject request if maximum concurrency reached
@@ -127,27 +197,83 @@ class ServerlessSimulator:
         self.running_count += 1
 
     def get_trace_end(self):
+        """Get the time at which the trace (one iteration of the simulation) has ended. This mainly due to the fact that we keep on simulating until the trace time goes beyond max_time, but the time is incremented until the next event.
+
+        Returns
+        -------
+        float
+            The time at which the trace has ended
+        """
         return self.hist_times[-1]
 
     def calculate_time_lengths(self):
+        """Calculate the time length for each step between two event transitions. Records the values in `self.time_lengths`.
+        """
         self.time_lengths = np.diff(self.hist_times)
 
     def get_average_server_count(self):
+        """Get the time-average server count.
+
+        Returns
+        -------
+        float
+            Average server count
+        """
         avg_server_count = (self.hist_server_count * self.time_lengths).sum() / self.get_trace_end()
         return avg_server_count
 
     def get_average_server_running_count(self):
+        """Get the time-averaged running server count.
+
+        Returns
+        -------
+        float
+            Average running server coutn
+        """
         avg_running_count = (self.hist_server_running_count * self.time_lengths).sum() / self.get_trace_end()
         return avg_running_count
 
     def get_average_server_idle_count(self):
+        """Get the time-averaged idle server count.
+
+        Returns
+        -------
+        float
+            Average idle server coutn
+        """
         avg_idle_count = (self.hist_server_idle_count * self.time_lengths).sum() / self.get_trace_end()
         return avg_idle_count
 
     def get_index_after_time(self, t):
+        """Get the first historical array index (for all arrays storing hisotrical events) that is after the time t.
+
+        Parameters
+        ----------
+        t : float
+            The time in the beginning we want to skip
+
+        Returns
+        -------
+        int
+            The calculated index in `self.hist_times`
+        """
         return np.min(np.where(np.array(self.hist_times) > t))
 
     def get_skip_init(self, skip_init_time=None, skip_init_index=None):
+        """Get the minimum index which satisfies both the time and index count we want to skip in the beginning of the simulation, which is used to reduce the transient effect for calculating the steady-state values.
+
+        Parameters
+        ----------
+        skip_init_time : float, optional
+            The amount of time skipped in the beginning, by default None
+        skip_init_index : [type], optional
+            The number of indices we want to skip in the historical events, by default None
+
+        Returns
+        -------
+        int
+            The number of indices after which both index and time requirements are satisfied
+        """
         # how many initial values should be skipped
         skip_init = 0
         if skip_init_time is not None:
@@ -157,6 +283,22 @@ class ServerlessSimulator:
         return skip_init
 
     def get_request_custom_states(self, hist_states, skip_init_time=None, skip_init_index=None):
+        """Get request statistics for an array of custom states.
+
+        Parameters
+        ----------
+        hist_states : list[object]
+            An array of custom states calculated by the user for which the statistics should be calculated, should be the same size as `hist_*` objects, these values will be used as the keys for the returned dataframe.
+        skip_init_time : float, optional
+            The amount of time skipped in the beginning, by default None
+        skip_init_index : int, optional
+            The number of indices that should be skipped in the beginning to calculate steady-state results, by default None
+
+        Returns
+        -------
+        pandas.DataFrame
+            A pandas dataframe including different statistics like `p_cold` (probability of cold start)
+        """
         req_skip_init = self.get_skip_init(skip_init_time=skip_init_time, 
                                         skip_init_index=skip_init_index)
 
@@ -192,6 +334,22 @@ class ServerlessSimulator:
         return reqdf
 
     def analyze_custom_states(self, hist_states, skip_init_time=None, skip_init_index=None):
+        """Analyses a custom states list and calculates the amount of time spent in each state each time we enterred that state, and the times at which transitions have happened.
+
+        Parameters
+        ----------
+        hist_states : list[object]
+            The states calculated, should have the same dimensions as the `hist_*` arrays.
+        skip_init_time : float, optional
+            The amount of time skipped in the beginning, by default None
+        skip_init_index : int, optional
+            The number of indices skipped in the beginning, by default None
+
+        Returns
+        -------
+        list[float], list[float]
+            (residence_times, transition_times) where residence_times is an array of the amount of times we spent in each state, and transition_times are the moments of time at which each transition has occured
+        """
         skip_init = self.get_skip_init(skip_init_time=skip_init_time, 
                                         skip_init_index=skip_init_index)
 
@@ -222,6 +380,22 @@ class ServerlessSimulator:
         return residence_times, transition_times
 
     def get_average_residence_times(self, hist_states, skip_init_time=None, skip_init_index=None):
+        """Get the average residence time for each state in custom state encoding.
+
+        Parameters
+        ----------
+        hist_states : list[object]
+            The states calculated, should have the same dimensions as the `hist_*` arrays.
+        skip_init_time : float, optional
+            The amount of time skipped in the beginning, by default None
+        skip_init_index : int, optional
+            The number of indices skipped in the beginning, by default None
+
+        Returns
+        -------
+        float
+            The average residence time for each state, averaged over the times we transitioned into that state
+        """
         residence_times, _ = self.analyze_custom_states(hist_states, skip_init_time, skip_init_index)
 
         residence_time_avgs = {}
@@ -231,15 +405,36 @@ class ServerlessSimulator:
         return residence_time_avgs
 
     def get_cold_start_prob(self):
+        """Get the probability of cold start for the simulated trace.
+
+        Returns
+        -------
+        float
+            The probability of cold start calculated by dividing the number of cold start requests, over all requests
+        """
         return self.total_cold_count / self.total_req_count
 
 
     def get_average_lifespan(self):
+        """Get the average lifespan of each instance, calculated by the amount of time from creation of instance, until its expiration.
+
+        Returns
+        -------
+        float
+            The average lifespan
+        """
         life_spans = np.array([s.get_life_span() for s in self.prev_servers])
         return life_spans.mean()
 
     
     def get_result_dict(self):
+        """Get the results of the simulation as a dict, which can easily be integrated into web services.
+
+        Returns
+        -------
+        dict
+            A dictionary of different characteristics.
+        """
         return {
             "reqs_cold": self.total_cold_count,
             "reqs_total": self.total_req_count,
@@ -254,6 +449,8 @@ class ServerlessSimulator:
         }
 
     def print_trace_results(self):
+        """Print a brief summary of the results of the trace.
+        """
         self.calculate_time_lengths()
 
         print(f"Cold Starts / total requests: \t {self.total_cold_count} / {self.total_req_count}")
@@ -274,19 +471,40 @@ class ServerlessSimulator:
         print(f"Average Idle Count:  \t\t {self.get_average_server_idle_count():.4f}")
 
     def trace_condition(self, t):
+        """The condition for resulting the trace, we continue the simulation until this function returns false.
+
+        Parameters
+        ----------
+        t : float
+            current time in the simulation since the start of simulation
+
+        Returns
+        -------
+        bool
+            True if we should continue the simulation, false otherwise
+        """
         return t < self.max_time
 
     @staticmethod
     def print_time_average(vals, probs, column_width=15):
+        """Print the time average of states.
+
+        Parameters
+        ----------
+        vals : list[object]
+            The values for which the time average is to be printed
+        probs : list[float]
+            The probability of each of the members of the values array
+        column_width : int, optional
+            The width of the printed result for `vals`, by default 15
+        """
         print(f"{'Value'.ljust(column_width)} Prob")
         print("".join(["="]*int(column_width*1.5)))
         for val, prob in zip(vals, probs):
             print(f"{str(val).ljust(column_width)} {prob:.4f}")
 
     def calculate_time_average(self, values, skip_init_time=None, skip_init_index=None):
-        """calculate_time_average calculates the time-averaged of the values passed in with
-        optional skipping a specific number of time steps (skip_init_index) and a specific
-        amount of time (skip_init_time).
+        """calculate_time_average calculates the time-averaged of the values passed in with optional skipping a specific number of time steps (skip_init_index) and a specific amount of time (skip_init_time).
 
         Parameters
         ----------
@@ -324,6 +542,20 @@ class ServerlessSimulator:
         return unq_vals, val_times
 
     def generate_trace(self, debug_print=False, progress=False):
+        """Generate a sample trace.
+
+        Parameters
+        ----------
+        debug_print : bool, optional
+            If True, will print each transition occuring during the simulation, by default False
+        progress : bool, optional
+            Whether or not the progress should be outputted using the `tqdm` library, by default False
+
+        Raises
+        ------
+        Exception
+            Raises of FunctionInstance enters an unknown state (other than `IDLE` for idle or `TERM` for terminated) after making an internal transition
+        """
         pbar = None
         if progress:
             pbar = tqdm(total=int(self.max_time))

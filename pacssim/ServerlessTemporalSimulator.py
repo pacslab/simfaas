@@ -8,8 +8,7 @@ from pacssim.ServerlessSimulator import ServerlessSimulator
 
 
 class ServerlessTemporalSimulator(ServerlessSimulator):
-    """ServerlessTemporalSimulator extends ServerlessSimulator to enable extraction of temporal 
-characteristics. Also gets all of the arguments accepted by :class:`~pacssim.ServerlessSimulator.ServerlessSimulator`
+    """ServerlessTemporalSimulator extends ServerlessSimulator to enable extraction of temporal characteristics. Also gets all of the arguments accepted by :class:`~pacssim.ServerlessSimulator.ServerlessSimulator`
 
     Parameters
     ----------
@@ -35,9 +34,7 @@ characteristics. Also gets all of the arguments accepted by :class:`~pacssim.Ser
 
 
 class ExponentialServerlessTemporalSimulator(ServerlessTemporalSimulator):
-    """ExponentialServerlessTemporalSimulator is a simulator assuming exponential distribution for proceesing times
-which means each process is state-less and we can generate a service time and use that from now on.
-This class extends ServerlessTemporalSimulator which has functionality for other processes as well.
+    """ExponentialServerlessTemporalSimulator is a simulator assuming exponential distribution for proceesing times which means each process is state-less and we can generate a service time and use that from now on. This class extends ServerlessTemporalSimulator which has functionality for other processes as well.
 
     Parameters
     ----------
