@@ -3,9 +3,9 @@ python:
 - '3.6'
 install:
 - pip install -r requirements.txt
+- bash .travis/readme_prep.sh
 - pip install .
 script:
-- bash .travis/readme_prep.sh
 - python -u pacssim/ServerlessSimulator.py
 before_deploy:
 # convert readme file
