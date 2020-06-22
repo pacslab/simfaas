@@ -22,6 +22,7 @@ You can check out the source code in our [Github Repository](https://github.com/
    installation.md
    sim.md
    temp-sim.md
+   simprocess.md
    api-reference.md
 
 
