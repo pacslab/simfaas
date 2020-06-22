@@ -1,10 +1,9 @@
 # API Reference
 
-Checkout [Module Index][] for a list of all modules implemented in this package.
+You can also checkout [Module Index][] for a list of all modules implemented in this package.
 
 [Module Index]: <py-modindex>
-
-<!-- 
+ 
 ## ServerlessSimulator
 
 ```eval_rst
@@ -49,4 +48,3 @@ Checkout [Module Index][] for a list of all modules implemented in this package.
     :undoc-members:
     :show-inheritance:
 ``` 
--->
