@@ -19,10 +19,10 @@ modern scale-per-request serverless platforms.
 
 ## Artifacts
 
-- PyPi: comming soon...
-- Github Repo: comming soon...
-- Documentation: comming soon...
-- Examples: comming soon...
+- [PyPi Package](https://pypi.org/project/pacssim/)
+- [Github Repo](https://github.com/nimamahmoudi/serverless-performance-simulator)
+- [ReadTheDocs Documentation](https://serverless-performance-simulator.readthedocs.io/en/latest/)
+- [Examples](./examples)
 
 ## Requirements
 
