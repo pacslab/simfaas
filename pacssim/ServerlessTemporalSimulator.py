@@ -8,6 +8,16 @@ from pacssim.ServerlessSimulator import ServerlessSimulator
 
 
 class ServerlessTemporalSimulator(ServerlessSimulator):
+    """ServerlessTemporalSimulator extends ServerlessSimulator to enable extraction of temporal 
+characteristics. Also gets all of the arguments accepted by :class:`~pacssim.ServerlessSimulator.ServerlessSimulator`
+
+    Parameters
+    ----------
+    running_function_instances : list[FunctionInstance]
+        A list containing the running function instances
+    idle_function_instances : list[FunctionInstance]
+        A list containing the idle function instances
+    """
     def __init__(self, running_function_instances, idle_function_instances,
                  *args, **kwargs):
 
@@ -32,7 +42,7 @@ This class extends ServerlessTemporalSimulator which has functionality for other
     Parameters
     ----------
     running_function_instance_count : integer
-            running_function_instance_count is the number of instances currently processing a request
+        running_function_instance_count is the number of instances currently processing a request
     idle_function_instance_next_terminations : list[float]
         idle_function_instance_next_terminations is an array of next termination scheduled for idle functions
         if they receive no new requests.

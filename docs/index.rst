@@ -6,6 +6,7 @@ Welcome to Serverless Performance Simulator's documentation!
    :caption: Contents:
 
    temp-sim.md
+   sim.md
 
 
 Indices and tables

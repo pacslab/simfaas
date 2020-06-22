@@ -1,9 +1,15 @@
 # Temporal Simulator
 
-<!-- ```eval_rst
-.. automodule:: pacssim.ServerlessTemporalSimulator
+In this family of classes, we want to extract temporal characteristics using execution of simulations.
+We can extract average estimates by average over several executions of the simulation (sample average).
+
+## Serverless Temporal Simulator
+
+```eval_rst
+.. autoclass:: pacssim.ServerlessTemporalSimulator.ServerlessTemporalSimulator
     :members:
-``` -->
+    :show-inheritance:
+```
 
 ## Exponential Temporal Simulator
 
