@@ -88,9 +88,10 @@ In case you need more details or explanation, contact me.
 To get up and running with the environment, run the following after installing `Anaconda`:
 
 ```sh
-conda env create -f simenv.yml
+conda env create -f environment.yml
 conda activate simenv
 pip install -r requirements.txt
+pip install -e .
 ```
 
 After updating the README.md, use the following to update the README.rst accordingly:
