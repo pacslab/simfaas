@@ -9,6 +9,7 @@ script:
 - python -u pacssim/SimProcess.py
 - python -u pacssim/ServerlessSimulator.py
 - python -u pacssim/ServerlessTemporalSimulator.py
+- python -u examples/sim_trace.py
 before_deploy:
 - bash .travis/readme_prep.sh
 deploy:
