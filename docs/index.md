@@ -17,8 +17,10 @@ modern scale-per-request serverless platforms.
    :maxdepth: 2
    :caption: Contents:
 
-   temp-sim.md
+   installation.md
    sim.md
+   temp-sim.md
+   api-reference.md
 
 
 Indices and tables
