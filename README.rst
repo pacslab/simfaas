@@ -1,8 +1,8 @@
 Serverless Performance Simulator
 ================================
 
-|PyPI| |PyPI - Status| |Travis (.com)| |Libraries.io dependency status
-for latest release| |GitHub|
+|Binder| |PyPI| |PyPI - Status| |Travis (.com)| |Documentation Status|
+|Libraries.io dependency status for latest release| |GitHub|
 
 This is a project done in `PACS Lab <https://pacs.eecs.yorku.ca/>`__
 aiming to develop a performance simulator for serverless computing
@@ -22,10 +22,12 @@ Artifacts
 
 -  `PyPi Package <https://pypi.org/project/pacssim/>`__
 -  `Github
-   Repo <https://github.com/nimamahmoudi/serverless-performance-simulator>`__
+   Repo <https://github.com/pacslab/serverless-performance-simulator>`__
 -  `ReadTheDocs
    Documentation <https://serverless-performance-simulator.readthedocs.io/en/latest/>`__
--  `Examples <./examples>`__
+   (`PDF <https://serverless-performance-simulator.readthedocs.io/_/downloads/en/latest/pdf/>`__)
+-  `Examples <./examples>`__ (`MyBinder Jupyter
+   Lab <https://mybinder.org/v2/gh/pacslab/serverless-performance-simulator/production?urlpath=lab%2Ftree%2Fexamples%2F>`__)
 
 Requirements
 ------------
@@ -52,9 +54,15 @@ For installation in development mode:
 
 .. code:: sh
 
-   git clone https://github.com/nimamahmoudi/serverless-performance-simulator
+   git clone https://github.com/pacslab/serverless-performance-simulator
    cd serverless-performance-simulator
    pip install -e .
+
+And in case you want to be able to execute the examples:
+
+.. code:: sh
+
+   pip install -r examples/requirements.txt
 
 Usage
 -----
@@ -135,9 +143,14 @@ following bibtex entry for citing our work:
 
    Coming soon...
 
+.. |Binder| image:: https://mybinder.org/badge_logo.svg
+   :target: https://mybinder.org/v2/gh/pacslab/serverless-performance-simulator/production?urlpath=lab%2Ftree%2Fexamples%2F
 .. |PyPI| image:: https://img.shields.io/pypi/v/pacssim.svg
+   :target: https://pypi.org/project/pacssim/
 .. |PyPI - Status| image:: https://img.shields.io/pypi/status/pacssim.svg
-.. |Travis (.com)| image:: https://img.shields.io/travis/com/nimamahmoudi/serverless-performance-simulator.svg
+.. |Travis (.com)| image:: https://img.shields.io/travis/com/pacslab/serverless-performance-simulator.svg
+.. |Documentation Status| image:: https://readthedocs.org/projects/serverless-performance-simulator/badge/?version=latest
+   :target: https://serverless-performance-simulator.readthedocs.io/en/latest/?badge=latest
 .. |Libraries.io dependency status for latest release| image:: https://img.shields.io/librariesio/release/pypi/pacssim.svg
-.. |GitHub| image:: https://img.shields.io/github/license/nimamahmoudi/serverless-performance-simulator.svg
+.. |GitHub| image:: https://img.shields.io/github/license/pacslab/serverless-performance-simulator.svg
 
