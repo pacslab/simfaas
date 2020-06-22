@@ -15,7 +15,7 @@ other characteristics.
 
 The developed performance model can be used to debug/improve analytical performance models,
 try new and improved management schema, or dig up a whole lot of properties of a common
-modern scale-per request serverless platforms.
+modern scale-per-request serverless platforms.
 
 ## Artifacts
 
