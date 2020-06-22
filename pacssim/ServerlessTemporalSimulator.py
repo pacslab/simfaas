@@ -26,15 +26,19 @@ class ServerlessTemporalSimulator(ServerlessSimulator):
 
 class ExponentialServerlessTemporalSimulator(ServerlessTemporalSimulator):
     """ExponentialServerlessTemporalSimulator is a simulator assuming exponential distribution for proceesing times
-        which means each process is state-less and we can generate a service time and use that from now on.
+which means each process is state-less and we can generate a service time and use that from now on.
+This class extends ServerlessTemporalSimulator which has functionality for other processes as well.
 
-        running_function_instance_count is the number of instances currently processing a request, and 
+    Parameters
+    ----------
+    running_function_instance_count : integer
+            running_function_instance_count is the number of instances currently processing a request
+    idle_function_instance_next_terminations : list[float]
         idle_function_instance_next_terminations is an array of next termination scheduled for idle functions
         if they receive no new requests.
     """
     def __init__(self, running_function_instance_count, idle_function_instance_next_terminations,
                  *args, **kwargs):
-
         cold_service_process = ExpSimProcess(rate=cold_service_rate)
         warm_service_process = ExpSimProcess(rate=warm_service_rate)
 

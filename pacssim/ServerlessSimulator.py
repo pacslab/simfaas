@@ -284,6 +284,25 @@ class ServerlessSimulator:
             print(f"{str(val).ljust(column_width)} {prob:.4f}")
 
     def calculate_time_average(self, values, skip_init_time=None, skip_init_index=None):
+        """calculate_time_average calculates the time-averaged of the values passed in with
+        optional skipping a specific number of time steps (skip_init_index) and a specific
+        amount of time (skip_init_time).
+
+        Parameters
+        ----------
+        values : list
+            A list of values with the same dimensions as history array (number of transitions)
+        skip_init_time : Float, optional
+            Amount of time skipped in the beginning to let the transient part of the solution pass, by default None
+        skip_init_index : [type], optional
+            Number of steps skipped in the beginning to let the transient behaviour of system pass, by default None
+
+        Returns
+        -------
+        (list, list)
+            returns (unq_vals, val_times) where unq_vals is the unique values inside the values list
+            and val_times is the portion of the time that is spent in that value.
+        """
         assert len(values) == len(self.time_lengths), "Values shoud be same length as history array (number of transitions)"
 
         skip_init = self.get_skip_init(skip_init_time=skip_init_time, 
