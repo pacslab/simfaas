@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nimamahmoudi/serverless-performance-simulator/production?urlpath=lab)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nimamahmoudi/serverless-performance-simulator/production?urlpath=lab%2Ftree%2Fexamples%2F)
 
 # Serverless Performance Simulator
 
