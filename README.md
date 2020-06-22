@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nimamahmoudi/serverless-performance-simulator/production?urlpath=lab)
+
 # Serverless Performance Simulator
 
 ![PyPI](https://img.shields.io/pypi/v/pacssim.svg)
