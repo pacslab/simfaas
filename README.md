@@ -23,7 +23,7 @@ modern scale-per-request serverless platforms.
 
 - [PyPi Package](https://pypi.org/project/pacssim/)
 - [Github Repo](https://github.com/nimamahmoudi/serverless-performance-simulator)
-- [ReadTheDocs Documentation](https://serverless-performance-simulator.readthedocs.io/en/latest/)
+- [ReadTheDocs Documentation](https://serverless-performance-simulator.readthedocs.io/en/latest/) ([PDF](https://serverless-performance-simulator.readthedocs.io/_/downloads/en/latest/pdf/))
 - [Examples](./examples) ([MyBinder Jupyter Lab](https://mybinder.org/v2/gh/nimamahmoudi/serverless-performance-simulator/production?urlpath=lab%2Ftree%2Fexamples%2F))
 
 ## Requirements
