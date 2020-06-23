@@ -1,4 +1,4 @@
-Welcome to Serverless Performance Simulator's documentation!
+Welcome to Serverless Performance Simulator's documentation
 ============================================================
 
 This is a project done in [PACS Lab](https://pacs.eecs.yorku.ca/) aiming to develop
