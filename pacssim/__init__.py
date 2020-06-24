@@ -1,4 +1,4 @@
-__version__ = '0.1.3'
+__version__ = '0.1.3-b'
 
 __author__ = 'Nima Mahmoudi <nma@ieee.org>'
 

@@ -1,5 +1,6 @@
 # Serverless Performance Simulator
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3906617.svg)](https://doi.org/10.5281/zenodo.3906617)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/pacssim/production?urlpath=lab%2Ftree%2Fexamples%2F)
 [![PyPI](https://img.shields.io/pypi/v/pacssim.svg)](https://pypi.org/project/pacssim/)
 ![PyPI - Status](https://img.shields.io/pypi/status/pacssim.svg)
@@ -116,5 +117,16 @@ MIT (c) 2020 Nima Mahmoudi & Hamzeh Khazaei
 You can find the paper with details of the simultor in [PACS lab website](https://pacs.eecs.yorku.ca/publications/). You can use the following bibtex entry for citing our work:
 
 ```bib
-Coming soon...
+@software{mahmoudi_nima_2020_3906617,
+  author       = {Mahmoudi, Nima and
+                  Khazaei, Hamzeh},
+  title        = {{PACSSIM: A Performance Simulator for Serverless 
+                   Computing Platforms}},
+  month        = jun,
+  year         = 2020,
+  publisher    = {Zenodo},
+  version      = {0.1.3},
+  doi          = {10.5281/zenodo.3906617},
+  url          = {https://doi.org/10.5281/zenodo.3906617}
+}
 ```
