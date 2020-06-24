@@ -15,8 +15,8 @@ pip install pacssim --upgrade
 For installation in development mode:
 
 ```sh
-git clone https://github.com/pacslab/serverless-performance-simulator
-cd serverless-performance-simulator
+git clone https://github.com/pacslab/pacssim
+cd pacssim
 pip install -e .
 ```
 

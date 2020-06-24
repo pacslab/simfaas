@@ -1,12 +1,12 @@
 # Serverless Performance Simulator
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/serverless-performance-simulator/production?urlpath=lab%2Ftree%2Fexamples%2F)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/pacssim/production?urlpath=lab%2Ftree%2Fexamples%2F)
 [![PyPI](https://img.shields.io/pypi/v/pacssim.svg)](https://pypi.org/project/pacssim/)
 ![PyPI - Status](https://img.shields.io/pypi/status/pacssim.svg)
-![Travis (.com)](https://img.shields.io/travis/com/pacslab/serverless-performance-simulator.svg)
-[![Documentation Status](https://readthedocs.org/projects/serverless-performance-simulator/badge/?version=latest)](https://serverless-performance-simulator.readthedocs.io/en/latest/?badge=latest)
+![Travis (.com)](https://img.shields.io/travis/com/pacslab/pacssim.svg)
+[![Documentation Status](https://readthedocs.org/projects/pacssim/badge/?version=latest)](https://pacssim.readthedocs.io/en/latest/?badge=latest)
 ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/pacssim.svg)
-![GitHub](https://img.shields.io/github/license/pacslab/serverless-performance-simulator.svg)
+![GitHub](https://img.shields.io/github/license/pacslab/pacssim.svg)
 
 This is a project done in [PACS Lab](https://pacs.eecs.yorku.ca/) aiming to develop
 a performance simulator for serverless computing platforms. Using this simulator,
@@ -22,9 +22,9 @@ modern scale-per-request serverless platforms.
 ## Artifacts
 
 - [PyPi Package](https://pypi.org/project/pacssim/)
-- [Github Repo](https://github.com/pacslab/serverless-performance-simulator)
-- [ReadTheDocs Documentation](https://serverless-performance-simulator.readthedocs.io/en/latest/) ([PDF](https://serverless-performance-simulator.readthedocs.io/_/downloads/en/latest/pdf/))
-- [Examples](./examples) ([MyBinder Jupyter Lab](https://mybinder.org/v2/gh/pacslab/serverless-performance-simulator/production?urlpath=lab%2Ftree%2Fexamples%2F))
+- [Github Repo](https://github.com/pacslab/pacssim)
+- [ReadTheDocs Documentation](https://pacssim.readthedocs.io/en/latest/) ([PDF](https://pacssim.readthedocs.io/_/downloads/en/latest/pdf/))
+- [Examples](./examples) ([MyBinder Jupyter Lab](https://mybinder.org/v2/gh/pacslab/pacssim/production?urlpath=lab%2Ftree%2Fexamples%2F))
 
 ## Requirements
 
@@ -48,8 +48,8 @@ pip install pacssim --upgrade
 For installation in development mode:
 
 ```sh
-git clone https://github.com/pacslab/serverless-performance-simulator
-cd serverless-performance-simulator
+git clone https://github.com/pacslab/pacssim
+cd pacssim
 pip install -e .
 ```
 

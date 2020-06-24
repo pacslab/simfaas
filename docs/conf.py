@@ -31,7 +31,7 @@ version = pacssim.__version__
 # The full version, including alpha/beta/rc tags
 release = pacssim.__version__
 
-github_doc_root = 'https://github.com/pacslab/serverless-performance-simulator/tree/master/docs/'
+github_doc_root = 'https://github.com/pacslab/pacssim/tree/master/docs/'
 
 
 # -- General configuration ---------------------------------------------------

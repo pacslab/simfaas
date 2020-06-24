@@ -12,7 +12,7 @@ The developed performance model can be used to debug/improve analytical performa
 try new and improved management schema, or dig up a whole lot of properties of a common
 modern scale-per-request serverless platforms.
 
-You can check out the source code in our [Github Repository](https://github.com/pacslab/serverless-performance-simulator).
+You can check out the source code in our [Github Repository](https://github.com/pacslab/pacssim).
 
 ```eval_rst
 .. toctree::
