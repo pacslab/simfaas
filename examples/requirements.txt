@@ -1,3 +1,4 @@
 pyzmq==19.0.1
 plotly==4.8.1
 dash==1.13.2
+modin[dask]==0.7.3
