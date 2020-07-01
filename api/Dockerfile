@@ -14,11 +14,11 @@ RUN pip install -r /opt/requirements.txt
 # Install pacssim
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends gcc libgcc-8-dev build-essential \
+    && apt-get -y install --no-install-recommends gcc build-essential \
     # we need gcc for this pip
     && pip install pacssim==$PACSSIM_VER \
     # remove extra packages
-    && apt-get purge -qy gcc libgcc-8-dev build-essential \
+    && apt-get purge -qy gcc build-essential \
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
