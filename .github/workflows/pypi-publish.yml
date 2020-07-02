@@ -32,7 +32,7 @@ jobs:
         python -u simfaas/ServerlessTemporalSimulator.py
         python -u examples/sim_trace.py
     - name: Build and publish
-      if: ${{ github.ref == 'ref/heads/production' }}
+      if: ${{ github.ref == 'refs/heads/production' }}
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
