@@ -3,7 +3,7 @@ FROM python:3.6-slim
 # Create the user that will run the app
 RUN adduser --disabled-password --gecos '' api-user
 
-ENV PACSSIM_VER=${PACSSIM_VER:-0.1.4}
+ENV SIMFAAS_VER=${SIMFAAS_VER:-0.1.4}
 
 # Install pip
 RUN pip install --upgrade pip
@@ -16,7 +16,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get -y install --no-install-recommends gcc build-essential \
     # we need gcc for this pip
-    && pip install simfaas==$PACSSIM_VER \
+    && pip install simfaas==$SIMFAAS_VER \
     # remove extra packages
     && apt-get purge -qy gcc build-essential \
     # Clean up
