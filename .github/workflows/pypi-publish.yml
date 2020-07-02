@@ -1,0 +1,42 @@
+# This workflows will upload a Python Package using Twine when a release is created
+# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+
+name: Upload Python Package
+
+on:
+  push:
+  pull_request:
+    branches: [ production ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine
+    - name: Install the package
+      run: |
+        pip install -r requirements.txt
+        pip install .
+    - name: Test functionality
+      run: |
+        python -u simfaas/SimProcess.py
+        python -u simfaas/ServerlessSimulator.py
+        python -u simfaas/ServerlessTemporalSimulator.py
+        python -u examples/sim_trace.py
+    - name: Build and publish
+      if: ${{ github.ref == 'ref/head/production' }}
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        bash .github/readme_prep.sh
+        python setup.py sdist bdist_wheel
+        twine upload dist/*
