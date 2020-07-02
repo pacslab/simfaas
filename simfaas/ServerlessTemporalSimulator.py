@@ -3,12 +3,12 @@
 # state is important and the initial process might be different from the
 # following service process.
 
-from pacssim.FunctionInstance import FunctionInstance
-from pacssim.ServerlessSimulator import ServerlessSimulator
+from simfaas.FunctionInstance import FunctionInstance
+from simfaas.ServerlessSimulator import ServerlessSimulator
 
 
 class ServerlessTemporalSimulator(ServerlessSimulator):
-    """ServerlessTemporalSimulator extends ServerlessSimulator to enable extraction of temporal characteristics. Also gets all of the arguments accepted by :class:`~pacssim.ServerlessSimulator.ServerlessSimulator`
+    """ServerlessTemporalSimulator extends ServerlessSimulator to enable extraction of temporal characteristics. Also gets all of the arguments accepted by :class:`~simfaas.ServerlessSimulator.ServerlessSimulator`
 
     Parameters
     ----------
@@ -88,7 +88,7 @@ class ExponentialServerlessTemporalSimulator(ServerlessTemporalSimulator):
 
 
 if __name__ == "__main__":
-    from pacssim.SimProcess import ExpSimProcess
+    from simfaas.SimProcess import ExpSimProcess
 
     print("Performing Temporal Simulation")
     cold_service_rate = 1/2.163

@@ -1,9 +1,9 @@
 import numpy as np
 
-from pacssim.SimProcess import ExpSimProcess
-from pacssim.FunctionInstance import FunctionInstance
-from pacssim.ServerlessTemporalSimulator import ServerlessTemporalSimulator
-from pacssim.ServerlessSimulator import ServerlessSimulator
+from simfaas.SimProcess import ExpSimProcess
+from simfaas.FunctionInstance import FunctionInstance
+from simfaas.ServerlessTemporalSimulator import ServerlessTemporalSimulator
+from simfaas.ServerlessSimulator import ServerlessSimulator
 
 cold_service_rate = 1/2.163
 warm_service_rate = 1/2.016

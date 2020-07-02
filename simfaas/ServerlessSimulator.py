@@ -1,7 +1,7 @@
 # The main simulator for serverless computing platforms
 
-from pacssim.SimProcess import ExpSimProcess
-from pacssim.FunctionInstance import FunctionInstance
+from simfaas.SimProcess import ExpSimProcess
+from simfaas.FunctionInstance import FunctionInstance
 import numpy as np
 import pandas as pd
 
@@ -12,11 +12,11 @@ class ServerlessSimulator:
 
     Parameters
     ----------
-    arrival_process : pacssim.SimProcess.SimProcess, optional
+    arrival_process : simfaas.SimProcess.SimProcess, optional
         The process used for generating inter-arrival samples, if absent, `arrival_rate` should be passed to signal exponential distribution, by default None
-    warm_service_process : pacssim.SimProcess.SimProcess, optional
+    warm_service_process : simfaas.SimProcess.SimProcess, optional
         The process which will be used to calculate service times, if absent, `warm_service_rate` should be passed to signal exponential distribution, by default None
-    cold_service_process : pacssim.SimProcess.SimProcess, optional
+    cold_service_process : simfaas.SimProcess.SimProcess, optional
         The process which will be used to calculate service times, if absent, `cold_service_rate` should be passed to signal exponential distribution, by default None
     expiration_threshold : float, optional
         The period of time after which the instance will be expired and the capacity release for use by others, by default 600
@@ -157,7 +157,7 @@ class ServerlessSimulator:
 
         Returns
         -------
-        pacssim.FunctionInstance.FunctionInstance
+        simfaas.FunctionInstance.FunctionInstance
             The function instances that the scheduler has selected for the incoming request.
         """
         idle_instances = [s for s in self.servers if s.is_idle()]

@@ -5,7 +5,7 @@ This is a project done in [PACS Lab](https://pacs.eecs.yorku.ca/) aiming to deve
 
 The developed performance model can be used to debug/improve analytical performance models, try new and improved management schema, or dig up a whole lot of properties of a common modern scale-per-request serverless platform.
 
-You can check out the source code in our [Github Repository](https://github.com/pacslab/pacssim).
+You can check out the source code in our [Github Repository](https://github.com/pacslab/simfaas).
 
 ```eval_rst
 .. toctree::

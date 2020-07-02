@@ -20,14 +20,14 @@ platforms.
 Artifacts
 ---------
 
--  `PyPi Package <https://pypi.org/project/pacssim/>`__
+-  `PyPi Package <https://pypi.org/project/simfaas/>`__
 -  `Github
-   Repo <https://github.com/pacslab/pacssim>`__
+   Repo <https://github.com/pacslab/simfaas>`__
 -  `ReadTheDocs
-   Documentation <https://pacssim.readthedocs.io/en/latest/>`__
-   (`PDF <https://pacssim.readthedocs.io/_/downloads/en/latest/pdf/>`__)
+   Documentation <https://simfaas.readthedocs.io/en/latest/>`__
+   (`PDF <https://simfaas.readthedocs.io/_/downloads/en/latest/pdf/>`__)
 -  `Examples <./examples>`__ (`MyBinder Jupyter
-   Lab <https://mybinder.org/v2/gh/pacslab/pacssim/production?urlpath=lab%2Ftree%2Fexamples%2F>`__)
+   Lab <https://mybinder.org/v2/gh/pacslab/simfaas/production?urlpath=lab%2Ftree%2Fexamples%2F>`__)
 
 Requirements
 ------------
@@ -42,20 +42,20 @@ Install using pip:
 
 .. code:: sh
 
-   pip install pacssim
+   pip install simfaas
 
 Upgrading using pip:
 
 .. code:: sh
 
-   pip install pacssim --upgrade
+   pip install simfaas --upgrade
 
 For installation in development mode:
 
 .. code:: sh
 
-   git clone https://github.com/pacslab/pacssim
-   cd pacssim
+   git clone https://github.com/pacslab/simfaas
+   cd simfaas
    pip install -e .
 
 And in case you want to be able to execute the examples:
@@ -71,7 +71,7 @@ A simple usage of the serverless simulator is shown in the following:
 
 .. code:: py
 
-   from pacssim.ServerlessSimulator import ServerlessSimulator as Sim
+   from simfaas.ServerlessSimulator import ServerlessSimulator as Sim
 
    sim = Sim(arrival_rate=0.9, warm_service_rate=1/1.991, cold_service_rate=1/2.244,
                expiration_threshold=600, max_time=1e6)
@@ -144,13 +144,13 @@ following bibtex entry for citing our work:
    Coming soon...
 
 .. |Binder| image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/pacslab/pacssim/production?urlpath=lab%2Ftree%2Fexamples%2F
-.. |PyPI| image:: https://img.shields.io/pypi/v/pacssim.svg
-   :target: https://pypi.org/project/pacssim/
-.. |PyPI - Status| image:: https://img.shields.io/pypi/status/pacssim.svg
-.. |Travis (.com)| image:: https://img.shields.io/travis/com/pacslab/pacssim.svg
-.. |Documentation Status| image:: https://readthedocs.org/projects/pacssim/badge/?version=latest
-   :target: https://pacssim.readthedocs.io/en/latest/?badge=latest
-.. |Libraries.io dependency status for latest release| image:: https://img.shields.io/librariesio/release/pypi/pacssim.svg
-.. |GitHub| image:: https://img.shields.io/github/license/pacslab/pacssim.svg
+   :target: https://mybinder.org/v2/gh/pacslab/simfaas/production?urlpath=lab%2Ftree%2Fexamples%2F
+.. |PyPI| image:: https://img.shields.io/pypi/v/simfaas.svg
+   :target: https://pypi.org/project/simfaas/
+.. |PyPI - Status| image:: https://img.shields.io/pypi/status/simfaas.svg
+.. |Travis (.com)| image:: https://img.shields.io/travis/com/pacslab/simfaas.svg
+.. |Documentation Status| image:: https://readthedocs.org/projects/simfaas/badge/?version=latest
+   :target: https://simfaas.readthedocs.io/en/latest/?badge=latest
+.. |Libraries.io dependency status for latest release| image:: https://img.shields.io/librariesio/release/pypi/simfaas.svg
+.. |GitHub| image:: https://img.shields.io/github/license/pacslab/simfaas.svg
 

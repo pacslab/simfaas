@@ -1,7 +1,7 @@
 # Simulated Process
 
 ```eval_rst
-.. automodule:: pacssim.SimProcess
+.. automodule:: simfaas.SimProcess
     :members:
     :undoc-members:
     :show-inheritance:

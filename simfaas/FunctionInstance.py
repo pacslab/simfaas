@@ -7,9 +7,9 @@ class FunctionInstance:
     ----------
     t : float
         The time at which the instance is being created
-    cold_service_process : pacssim.SimProcess.SimProcess
+    cold_service_process : simfaas.SimProcess.SimProcess
         The process used to sample cold start response times
-    warm_service_process : pacssim.SimProcess.SimProcess
+    warm_service_process : simfaas.SimProcess.SimProcess
         The process used to sample warm start response times
     expiration_threshold : float
         The amount of time it takes for an instance to get expired and the resources consumed by it released after processing the last request

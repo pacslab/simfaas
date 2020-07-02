@@ -11,12 +11,12 @@ RUN pip install --upgrade pip
 ADD src/requirements.txt /opt/requirements.txt
 RUN pip install -r /opt/requirements.txt
 
-# Install pacssim
+# Install simfaas
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get -y install --no-install-recommends gcc build-essential \
     # we need gcc for this pip
-    && pip install pacssim==$PACSSIM_VER \
+    && pip install simfaas==$PACSSIM_VER \
     # remove extra packages
     && apt-get purge -qy gcc build-essential \
     # Clean up

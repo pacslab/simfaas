@@ -3,20 +3,20 @@
 Install using pip:
 
 ```sh
-pip install pacssim
+pip install simfaas
 ```
 
 Upgrading using pip:
 
 ```sh
-pip install pacssim --upgrade
+pip install simfaas --upgrade
 ```
 
 For installation in development mode:
 
 ```sh
-git clone https://github.com/pacslab/pacssim
-cd pacssim
+git clone https://github.com/pacslab/simfaas
+cd simfaas
 pip install -e .
 ```
 

@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Schema
 
-from pacssim.ServerlessSimulator import ServerlessSimulator
+from simfaas.ServerlessSimulator import ServerlessSimulator
 import numpy as np
 
 app = FastAPI()

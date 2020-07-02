@@ -1,13 +1,13 @@
 # Serverless Performance Simulator
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3906617.svg)](https://doi.org/10.5281/zenodo.3906617)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/pacssim/production?urlpath=lab%2Ftree%2Fexamples%2F)
-[![PyPI](https://img.shields.io/pypi/v/pacssim.svg)](https://pypi.org/project/pacssim/)
-![PyPI - Status](https://img.shields.io/pypi/status/pacssim.svg)
-![Travis (.com)](https://img.shields.io/travis/com/pacslab/pacssim.svg)
-[![Documentation Status](https://readthedocs.org/projects/pacssim/badge/?version=latest)](https://pacssim.readthedocs.io/en/latest/?badge=latest)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/pacssim.svg)
-![GitHub](https://img.shields.io/github/license/pacslab/pacssim.svg)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/simfaas/production?urlpath=lab%2Ftree%2Fexamples%2F)
+[![PyPI](https://img.shields.io/pypi/v/simfaas.svg)](https://pypi.org/project/simfaas/)
+![PyPI - Status](https://img.shields.io/pypi/status/simfaas.svg)
+![Travis (.com)](https://img.shields.io/travis/com/pacslab/simfaas.svg)
+[![Documentation Status](https://readthedocs.org/projects/simfaas/badge/?version=latest)](https://simfaas.readthedocs.io/en/latest/?badge=latest)
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/simfaas.svg)
+![GitHub](https://img.shields.io/github/license/pacslab/simfaas.svg)
 
 This is a project done in [PACS Lab](https://pacs.eecs.yorku.ca/) aiming to develop a performance simulator for serverless computing platforms. Using this simulator, we can calculate Quality of Service (QoS) metrics like average response time, the average probability of cold start, average running servers (directly reflecting average cost), a histogram of different events, distribution of the number of servers throughout time, and many other characteristics.
 
@@ -15,10 +15,10 @@ The developed performance model can be used to debug/improve analytical performa
 
 ## Artifacts
 
-- [PyPi Package](https://pypi.org/project/pacssim/)
-- [Github Repo](https://github.com/pacslab/pacssim)
-- [ReadTheDocs Documentation](https://pacssim.readthedocs.io/en/latest/) ([PDF](https://pacssim.readthedocs.io/_/downloads/en/latest/pdf/))
-- [Examples](./examples) ([MyBinder Jupyter Lab](https://mybinder.org/v2/gh/pacslab/pacssim/production?urlpath=lab%2Ftree%2Fexamples%2F))
+- [PyPi Package](https://pypi.org/project/simfaas/)
+- [Github Repo](https://github.com/pacslab/simfaas)
+- [ReadTheDocs Documentation](https://simfaas.readthedocs.io/en/latest/) ([PDF](https://simfaas.readthedocs.io/_/downloads/en/latest/pdf/))
+- [Examples](./examples) ([MyBinder Jupyter Lab](https://mybinder.org/v2/gh/pacslab/simfaas/production?urlpath=lab%2Ftree%2Fexamples%2F))
 
 ## Requirements
 
@@ -30,20 +30,20 @@ The developed performance model can be used to debug/improve analytical performa
 Install using pip:
 
 ```sh
-pip install pacssim
+pip install simfaas
 ```
 
 Upgrading using pip:
 
 ```sh
-pip install pacssim --upgrade
+pip install simfaas --upgrade
 ```
 
 For installation in development mode:
 
 ```sh
-git clone https://github.com/pacslab/pacssim
-cd pacssim
+git clone https://github.com/pacslab/simfaas
+cd simfaas
 pip install -e .
 ```
 
@@ -58,7 +58,7 @@ pip install -r examples/requirements.txt
 A simple usage of the serverless simulator is shown in the following:
 
 ```py
-from pacssim.ServerlessSimulator import ServerlessSimulator as Sim
+from simfaas.ServerlessSimulator import ServerlessSimulator as Sim
 
 sim = Sim(arrival_rate=0.9, warm_service_rate=1/1.991, cold_service_rate=1/2.244,
             expiration_threshold=600, max_time=1e6)

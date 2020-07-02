@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import expon, poisson, norm
 
-from pacssim.Utility import convert_hist_pdf
+from simfaas.Utility import convert_hist_pdf
 
 # import warnings
 # warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -67,7 +67,7 @@ of the child classes.
 
     def visualize(self, num_traces=10000, num_bins=100):
         """visualize function visualizes the PDF and CDF of the simulated process by generating
-traces from your function using :func:`~pacssim.SimProcess.SimProcess.generate_trace` and
+traces from your function using :func:`~simfaas.SimProcess.SimProcess.generate_trace` and
 converting the resulting histogram values (event counts) to densities to be comparable with
 PDF and CDF functions calculated analytically.
 
@@ -102,7 +102,7 @@ PDF and CDF functions calculated analytically.
 
 
 class ExpSimProcess(SimProcess):
-    """ExpSimProcess extends the functionality of :class:`~pacssim.SimProcess.SimProcess` for
+    """ExpSimProcess extends the functionality of :class:`~simfaas.SimProcess.SimProcess` for
 exponentially distributed processes. This class also implements the `pdf` and `cdf` functions
 which can be used for visualization purposes.
 
@@ -129,7 +129,7 @@ which can be used for visualization purposes.
 
 
 class ConstSimProcess(SimProcess):
-    """ConstSimProcess extends the functionality of :class:`~pacssim.SimProcess.SimProcess` for
+    """ConstSimProcess extends the functionality of :class:`~simfaas.SimProcess.SimProcess` for
 constant processes, meaning this is a deterministic process and fires exactly every
 `1/rate` seconds. This class does not implement the `pdf` and `cdf` functions.
 
@@ -150,7 +150,7 @@ constant processes, meaning this is a deterministic process and fires exactly ev
 
 
 class GaussianSimProcess(SimProcess):
-    """GaussianSimProcess extends the functionality of :class:`~pacssim.SimProcess.SimProcess` for
+    """GaussianSimProcess extends the functionality of :class:`~simfaas.SimProcess.SimProcess` for
 gaussian processes. This class also implements the `pdf` and `cdf` functions
 which can be used for visualization purposes.
 

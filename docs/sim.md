@@ -1,7 +1,7 @@
 # Serverless Simulator
 
 ```eval_rst
-.. autoclass:: pacssim.ServerlessSimulator.ServerlessSimulator
+.. autoclass:: simfaas.ServerlessSimulator.ServerlessSimulator
     :members:
     :undoc-members:
     :show-inheritance:

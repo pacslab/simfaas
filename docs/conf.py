@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('.'))
 import recommonmark
 from recommonmark.transform import AutoStructify
 
-import pacssim
+import simfaas
 
 # -- Project information -----------------------------------------------------
 
@@ -27,11 +27,11 @@ copyright = '2020, Nima Mahmoudi'
 author = 'Nima Mahmoudi'
 
 # The short X.Y version.
-version = pacssim.__version__
+version = simfaas.__version__
 # The full version, including alpha/beta/rc tags
-release = pacssim.__version__
+release = simfaas.__version__
 
-github_doc_root = 'https://github.com/pacslab/pacssim/tree/master/docs/'
+github_doc_root = 'https://github.com/pacslab/simfaas/tree/master/docs/'
 
 
 # -- General configuration ---------------------------------------------------

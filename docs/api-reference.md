@@ -7,7 +7,7 @@ You can also checkout [Module Index][] for a list of all modules implemented in 
 ## ServerlessSimulator
 
 ```eval_rst
-.. automodule:: pacssim.ServerlessSimulator
+.. automodule:: simfaas.ServerlessSimulator
     :members:
     :undoc-members:
     :show-inheritance:
@@ -16,7 +16,7 @@ You can also checkout [Module Index][] for a list of all modules implemented in 
 ## ServerlessTemporalSimulator
 
 ```eval_rst
-.. automodule:: pacssim.ServerlessTemporalSimulator
+.. automodule:: simfaas.ServerlessTemporalSimulator
     :members:
     :undoc-members:
     :show-inheritance:
@@ -25,7 +25,7 @@ You can also checkout [Module Index][] for a list of all modules implemented in 
 ## FunctionInstance
 
 ```eval_rst
-.. automodule:: pacssim.FunctionInstance
+.. automodule:: simfaas.FunctionInstance
     :members:
     :undoc-members:
     :show-inheritance:
@@ -34,7 +34,7 @@ You can also checkout [Module Index][] for a list of all modules implemented in 
 ## SimProcess
 
 ```eval_rst
-.. automodule:: pacssim.SimProcess
+.. automodule:: simfaas.SimProcess
     :members:
     :undoc-members:
     :show-inheritance:
@@ -43,7 +43,7 @@ You can also checkout [Module Index][] for a list of all modules implemented in 
 ## Utility
 
 ```eval_rst
-.. automodule:: pacssim.Utility
+.. automodule:: simfaas.Utility
     :members:
     :undoc-members:
     :show-inheritance:
