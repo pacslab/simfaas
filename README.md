@@ -1,10 +1,10 @@
 # SimFaaS: A Serverless Performance Simulator
 
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3906617.svg)](https://doi.org/10.5281/zenodo.3906617) -->
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/simfaas/production?urlpath=lab%2Ftree%2Fexamples%2F)
 [![PyPI](https://img.shields.io/pypi/v/simfaas.svg)](https://pypi.org/project/simfaas/)
 ![PyPI - Status](https://img.shields.io/pypi/status/simfaas.svg)
-![Travis (.com)](https://img.shields.io/travis/com/pacslab/simfaas.svg)
+![Upload Python Package](https://github.com/pacslab/simfaas/workflows/Upload%20Python%20Package/badge.svg)
+![Docker Image CI](https://github.com/pacslab/simfaas/workflows/Docker%20Image%20CI/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/simfaas/badge/?version=latest)](https://simfaas.readthedocs.io/en/latest/?badge=latest)
 ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/simfaas.svg)
 ![GitHub](https://img.shields.io/github/license/pacslab/simfaas.svg)
