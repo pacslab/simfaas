@@ -14,8 +14,7 @@ jobs:
     - name: Build the Docker image
       if: ${{ github.ref == 'refs/heads/master' }}
       run: |
-        cp -R ./simfaas ./api/simfaas
-        docker build ./api/ -f ./api/Dockerfile -t simfaas-api
+        docker build ./ -f ./api/Dockerfile -t simfaas-api
     - name: Docker Build & Push
       if: ${{ github.ref == 'refs/heads/production' }}
       uses: docker/build-push-action@v1
@@ -24,7 +23,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: nimamahmoudi/simfaas-api
         cache_froms: python:3.6-slim,nimamahmoudi/simfaas-api
-        path: ./api/
+        path: ./
         dockerfile: ./api/Dockerfile
         registry: docker.io
         push: true

@@ -8,11 +8,18 @@ ENV SIMFAAS_VER=${SIMFAAS_VER:-0.1.4}
 # Install pip
 RUN pip install --upgrade pip
 # Install requirements
-ADD src/requirements.txt /opt/requirements.txt
+ADD api/src/requirements.txt /opt/requirements.txt
 RUN pip install -r /opt/requirements.txt
 
-# Copy simfaas
-ADD simfaas /simfaas
+# Install simfaas requirements
+ADD requirements.txt /opt/simfaas-requirements.txt
+RUN pip install -r /opt/simfaas-requirements.txt
+
+# copy simfaas
+ADD simfaas /simfaas/simfaas
+ADD requirements.txt /simfaas/
+ADD README.rst /simfaas/
+ADD *.py /simfaas/
 RUN pip install /simfaas
 
 # Install simfaas
