@@ -11,19 +11,24 @@ RUN pip install --upgrade pip
 ADD src/requirements.txt /opt/requirements.txt
 RUN pip install -r /opt/requirements.txt
 
+# Copy simfaas
+ADD simfaas /simfaas
+RUN pip install /simfaas
+
 # Install simfaas
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
-    && apt-get -y install --no-install-recommends gcc build-essential \
-    # we need gcc for this pip
-    && pip install simfaas==$SIMFAAS_VER \
-    # remove extra packages
-    && apt-get purge -qy gcc build-essential \
-    # Clean up
-    && apt-get autoremove -y \
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
-ENV DEBIAN_FRONTEND=dialog
+
+# ENV DEBIAN_FRONTEND=noninteractive
+# RUN apt-get update \
+#     && apt-get -y install --no-install-recommends gcc build-essential \
+#     # we need gcc for this pip
+#     && pip install simfaas==$SIMFAAS_VER \
+#     # remove extra packages
+#     && apt-get purge -qy gcc build-essential \
+#     # Clean up
+#     && apt-get autoremove -y \
+#     && apt-get clean -y \
+#     && rm -rf /var/lib/apt/lists/*
+# ENV DEBIAN_FRONTEND=dialog
 
 # add source files
 ADD src /opt/api/

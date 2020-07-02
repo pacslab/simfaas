@@ -2,13 +2,18 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ production ]
+    branches:
+      - production
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Build the Docker image
+      if: ${{ github.ref == 'refs/heads/master' }}
+      run: docker build ./api/ -f ./api/Dockerfile -t simfaas-api
     - name: Docker Build & Push
       if: ${{ github.ref == 'refs/heads/production' }}
       uses: docker/build-push-action@v1
