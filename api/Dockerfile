@@ -20,10 +20,10 @@ ADD simfaas /simfaas/simfaas
 ADD requirements.txt /simfaas/
 ADD README.rst /simfaas/
 ADD *.py /simfaas/
+# Install simfaas
 RUN pip install /simfaas
 
-# Install simfaas
-
+# In case build essentials where needed for a package:
 # ENV DEBIAN_FRONTEND=noninteractive
 # RUN apt-get update \
 #     && apt-get -y install --no-install-recommends gcc build-essential \
@@ -38,7 +38,7 @@ RUN pip install /simfaas
 # ENV DEBIAN_FRONTEND=dialog
 
 # add source files
-ADD src /opt/api/
+ADD api/src /opt/api/
 
 WORKDIR /opt/api
 RUN chmod +x /opt/api/run.sh
