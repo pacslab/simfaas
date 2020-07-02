@@ -1,4 +1,4 @@
-# Serverless Performance Simulator
+# SimFaaS: A Serverless Performance Simulator
 
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3906617.svg)](https://doi.org/10.5281/zenodo.3906617) -->
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/simfaas/production?urlpath=lab%2Ftree%2Fexamples%2F)
