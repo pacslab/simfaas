@@ -160,7 +160,7 @@ class ServerlessSimulator:
         simfaas.FunctionInstance.FunctionInstance
             The function instances that the scheduler has selected for the incoming request.
         """
-        idle_instances = [s for s in self.servers if s.is_idle()]
+        idle_instances = [s for s in self.servers if s.is_ready()]
         creation_times = [s.creation_time for s in idle_instances]
         
         # scheduling mechanism
@@ -541,6 +541,11 @@ class ServerlessSimulator:
         val_times = val_times / val_times.sum()
         return unq_vals, val_times
 
+    
+    def is_warm_available(self, t):
+        return self.idle_count > 0
+
+
     def generate_trace(self, debug_print=False, progress=False):
         """Generate a sample trace.
 
@@ -597,7 +602,7 @@ class ServerlessSimulator:
                 next_arrival = t + self.req()
 
                 # if warm start
-                if self.idle_count > 0:
+                if self.is_warm_available(t):
                     self.warm_start_arrival(t)
                 # if cold start
                 else:

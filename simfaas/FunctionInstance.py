@@ -89,6 +89,16 @@ class FunctionInstance:
         """
         return self.state == 'IDLE'
 
+    def is_ready(self):
+        """Whether or not the instance is ready to accept new requests. Here, same as is_idle()
+
+        Returns
+        -------
+        bool
+            True if ready to accept new requests, False otherwise
+        """
+        return self.is_idle()
+
     def make_transition(self):
         """Make the next internal transition, either transition into `IDLE` of already processing a request, or `TERM` if scheduled termination has arrived.
 
