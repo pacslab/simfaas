@@ -128,3 +128,6 @@ dmypy.json
 output.log
 
 dask-worker-space
+
+classes_simfaas.*
+packages_simfaas.*
