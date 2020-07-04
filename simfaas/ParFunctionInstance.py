@@ -32,6 +32,16 @@ class ParFunctionInstance(FunctionInstance):
     def _get_running_reqs(self):
         return len(self.next_departure)
 
+    def get_concurrency(self):
+        """get current concurrency level
+
+        Returns
+        -------
+        int
+            number of requests being processed right now
+        """
+        return self._get_running_reqs()
+
     def arrival_transition(self, t):
         """Make an arrival transition, which causes the instance to go from IDLE to WARM
 

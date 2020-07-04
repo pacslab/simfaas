@@ -243,7 +243,7 @@ class ServerlessSimulator:
         Returns
         -------
         float
-            Average idle server coutn
+            Average idle server count
         """
         avg_idle_count = (self.hist_server_idle_count * self.time_lengths).sum() / self.get_trace_end()
         return avg_idle_count
@@ -548,7 +548,32 @@ class ServerlessSimulator:
 
     
     def is_warm_available(self, t):
+        """Whether we have at least one available instance in the warm pool that can process requests
+
+        Parameters
+        ----------
+        t : float
+            Current time
+
+        Returns
+        -------
+        bool
+            True if at least one server is able to accept a request
+        """
         return self.idle_count > 0
+
+
+    def update_hist_arrays(self, t):
+        """Update history arrays
+
+        Parameters
+        ----------
+        t : float
+            Current time
+        """
+        self.hist_server_count.append(self.server_count)
+        self.hist_server_running_count.append(self.running_count)
+        self.hist_server_idle_count.append(self.idle_count)
 
 
     def generate_trace(self, debug_print=False, progress=False):
@@ -580,9 +605,7 @@ class ServerlessSimulator:
                     pbar.update(int(t) - pbar_t_update)
                     pbar_t_update = int(t)
             self.hist_times.append(t)
-            self.hist_server_count.append(self.server_count)
-            self.hist_server_running_count.append(self.running_count)
-            self.hist_server_idle_count.append(self.idle_count)
+            self.update_hist_arrays(t)
             if debug_print:
                 print()
                 print(f"Time: {t:.2f} \t NextArrival: {next_arrival:.2f}")

@@ -1,5 +1,7 @@
 # The main simulator for serverless computing platforms
 
+import numpy as np
+
 from simfaas.ServerlessSimulator import ServerlessSimulator
 from simfaas.ParFunctionInstance import ParFunctionInstance
 
@@ -38,27 +40,84 @@ class ParServerlessSimulator(ServerlessSimulator):
         self.running_count += 1
         new_server = ParFunctionInstance(self.concurrency_value, t, self.cold_service_process, self.warm_service_process, self.expiration_threshold)
         self.servers.append(new_server)
+
+    def reset_trace(self):
+        """resets all the historical data to prepare the class for a new simulation with additional functionality added to base class.
+        """
+        super().reset_trace()
+        self.hist_conc_levels = []
+        self.hist_conc_avgs = []
+
+    def update_hist_arrays(self, t):
+        """Update history arrays
+
+        Parameters
+        ----------
+        t : float
+            Current time
+        """
+        super().update_hist_arrays(t)
+        conc_levels = [s.get_concurrency() for s in self.servers]
+        self.hist_conc_levels.append(conc_levels)
+
+        if len(conc_levels) > 0:
+            conc_level_avg = np.mean(conc_levels)
+        else:
+            conc_level_avg = -1
+
+        self.hist_conc_avgs.append(conc_level_avg)
+
+    def get_average_conc_avgs(self):
+        """Get the time-averaged average concurrency levels among all instances.
+
+        Returns
+        -------
+        float
+            Average concurrency levels of instances
+        """
+        avg_conc = (self.hist_conc_avgs * self.time_lengths)
+        idxs = avg_conc > 0
+        avg_conc = avg_conc[idxs].sum() / self.time_lengths[idxs].sum()
+        return avg_conc
+
     
     def get_result_dict(self):
         """Get the results of the simulation as a dict, which can easily be integrated into web services.
-
-        TODO: add results regarding concurrency value
 
         Returns
         -------
         dict
             A dictionary of different characteristics.
         """
-        return super().get_result_dict()
+
+        # TODO: add results regarding concurrency value
+        ret = super().get_result_dict()
+        ret.update({
+            "conc_level_avg": self.get_average_conc_avgs(),
+        })
+        return ret
 
     def print_trace_results(self):
         """Print a brief summary of the results of the trace.
-
-        TODO: print concurrency value info
         """
         super().print_trace_results()
+
+        # average concurrency value
+        print(f"Average Concurrency Value: \t {self.get_average_conc_avgs():.4f}")
     
     def is_warm_available(self, t):
+        """Whether we have at least one available instance in the warm pool that can process requests
+
+        Parameters
+        ----------
+        t : float
+            Current time
+
+        Returns
+        -------
+        bool
+            True if at least one server is able to accept a request
+        """
         for s in self.servers:
             if s.is_ready():
                 return True
