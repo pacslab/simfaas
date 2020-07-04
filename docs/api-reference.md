@@ -22,6 +22,15 @@ You can also checkout [Module Index][] for a list of all modules implemented in 
     :show-inheritance:
 ```
 
+## ParServerlessSimulator
+
+```eval_rst
+.. automodule:: simfaas.ParServerlessSimulator
+    :members:
+    :undoc-members:
+    :show-inheritance:
+```
+
 ## FunctionInstance
 
 ```eval_rst
