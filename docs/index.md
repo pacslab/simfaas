@@ -15,6 +15,7 @@ You can check out the source code in our [Github Repository](https://github.com/
    installation.md
    sim.md
    temp-sim.md
+   parsim.md
    simprocess.md
    api-reference.md
 

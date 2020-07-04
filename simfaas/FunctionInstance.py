@@ -34,6 +34,13 @@ class FunctionInstance:
         self.update_next_termination()
 
     def generate_cold_departure(self, t):
+        """generate the departure of the cold request which is the first request received by the instance.
+
+        Parameters
+        ----------
+        t : float
+            Current time in simulation
+        """
         self.next_departure = t + self.cold_service_process.generate_trace()
 
     def __str__(self):
@@ -55,9 +62,23 @@ class FunctionInstance:
         self.next_termination = self.next_departure + self.expiration_threshold
 
     def get_life_span(self):
+        """Get the life span of the server, e.g. after the server has been terminated
+
+        Returns
+        -------
+        float
+            life span of the instance
+        """
         return self.next_termination - self.creation_time
 
     def get_state(self):
+        """Get the current state
+
+        Returns
+        -------
+        str
+            currentstate
+        """
         return self.state
 
     def arrival_transition(self, t):

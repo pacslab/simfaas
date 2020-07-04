@@ -31,6 +31,15 @@ You can also checkout [Module Index][] for a list of all modules implemented in 
     :show-inheritance:
 ```
 
+## ParFunctionInstance
+
+```eval_rst
+.. automodule:: simfaas.ParFunctionInstance
+    :members:
+    :undoc-members:
+    :show-inheritance:
+```
+
 ## SimProcess
 
 ```eval_rst

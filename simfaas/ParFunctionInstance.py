@@ -25,8 +25,6 @@ class ParFunctionInstance(FunctionInstance):
         self.next_departure = [self.cold_end + self.warm_service_process.generate_trace()]
 
     def update_next_termination(self):
-        """Update the next scheduled termination if no other requests are made to the instance.
-        """
         self.next_termination = max(self.next_departure) + self.expiration_threshold
 
     def _get_running_reqs(self):
@@ -43,18 +41,6 @@ class ParFunctionInstance(FunctionInstance):
         return self._get_running_reqs()
 
     def arrival_transition(self, t):
-        """Make an arrival transition, which causes the instance to go from IDLE to WARM
-
-        Parameters
-        ----------
-        t : float
-            The time at which the transition has occured, this also updates the next termination.
-
-        Raises
-        ------
-        Exception
-            Raises if currently process a request by being in `COLD` or `WARM` states
-        """
         if self.state == 'COLD' or self.state == 'WARM':
             if not self.is_ready():
                 raise Exception('instance is already at full capacity!')
@@ -70,28 +56,9 @@ class ParFunctionInstance(FunctionInstance):
             self.update_next_termination()
 
     def is_ready(self):
-        """Whether or not the instance is ready to accept new requests. Here, same as is_idle()
-
-        Returns
-        -------
-        bool
-            True if ready to accept new requests, False otherwise
-        """
         return self._get_running_reqs() < self.concurrency_value
 
     def make_transition(self):
-        """Make the next internal transition, either transition into `IDLE` of already processing a request, or `TERM` if scheduled termination has arrived.
-
-        Returns
-        -------
-        str
-            The state after making the internal transition
-
-        Raises
-        ------
-        Exception
-            Raises if already in `TERM` state, since no other internal transitions are possible
-        """
         # next transition is a departure
         if self.state == 'COLD':
             self.state = 'WARM'
@@ -121,18 +88,6 @@ class ParFunctionInstance(FunctionInstance):
         return self.state
 
     def get_next_transition_time(self, t=0):
-        """Get how long until the next transition.
-
-        Parameters
-        ----------
-        t : float, optional
-            The current time, by default 0
-
-        Returns
-        -------
-        float
-            The seconds remaining until the next transition
-        """
         # next transition would be termination
         if self.state == 'IDLE':
             return self.get_next_termination(t)
@@ -142,23 +97,6 @@ class ParFunctionInstance(FunctionInstance):
         return self.get_next_departure(t)
 
     def get_next_departure(self, t):
-        """Get the time until the next departure
-
-        Parameters
-        ----------
-        t : float
-            Current time
-
-        Returns
-        -------
-        float
-            Amount of time until the next departure
-
-        Raises
-        ------
-        Exception
-            Raises if called after the departure
-        """
         if t > min(self.next_departure):
             raise Exception("current time is after departure!")
         return min(self.next_departure) - t
