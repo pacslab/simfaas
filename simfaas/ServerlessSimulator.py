@@ -50,11 +50,13 @@ class ServerlessSimulator:
         if self.arrival_process is None:
             raise Exception('Arrival process not defined!')
 
-        # if both warm and cold service rate is provided (exponential distribution)
-        # then, warm service rate should be larger than cold service rate
-        if 'warm_service_rate' in kwargs and 'cold_service_rate' in kwargs:
-            if kwargs.get('warm_service_rate') < kwargs.get('cold_service_rate'):
-                raise ValueError("Warm service rate cannot be smaller than cold service rate!")
+        # force this only if we are running the current class, not a child class (cause they might work differently)
+        if self.__class__ == ServerlessSimulator:
+            # if both warm and cold service rate is provided (exponential distribution)
+            # then, warm service rate should be larger than cold service rate
+            if 'warm_service_rate' in kwargs and 'cold_service_rate' in kwargs:
+                if kwargs.get('warm_service_rate') < kwargs.get('cold_service_rate'):
+                    raise ValueError("Warm service rate cannot be smaller than cold service rate!")
 
         # setup warm service process
         self.warm_service_process = warm_service_process
@@ -189,12 +191,14 @@ class ServerlessSimulator:
 
         # schedule the request
         instance = self.schedule_warm_instance(t)
+        was_idle = instance.is_idle()
         instance.arrival_transition(t)
 
         # transition from idle to running
         self.total_warm_count += 1
-        self.idle_count -= 1
-        self.running_count += 1
+        if was_idle:
+            self.idle_count -= 1
+            self.running_count += 1
 
     def get_trace_end(self):
         """Get the time at which the trace (one iteration of the simulation) has ended. This mainly due to the fact that we keep on simulating until the trace time goes beyond max_time, but the time is incremented until the next event.
@@ -461,7 +465,8 @@ class ServerlessSimulator:
 
         # average instance life span
         life_spans = np.array([s.get_life_span() for s in self.prev_servers])
-        print(f"Average Instance Life Span: \t {life_spans.mean():.4f}")
+        if len(life_spans) > 0:
+            print(f"Average Instance Life Span: \t {life_spans.mean():.4f}")
 
         # average instance count
         print(f"Average Server Count:  \t\t {self.get_average_server_count():.4f}")
@@ -559,7 +564,7 @@ class ServerlessSimulator:
         Raises
         ------
         Exception
-            Raises of FunctionInstance enters an unknown state (other than `IDLE` for idle or `TERM` for terminated) after making an internal transition
+            Raises if FunctionInstance enters an unknown state (other than `IDLE` for idle or `TERM` for terminated) after making an internal transition
         """
         pbar = None
         if progress:
@@ -630,7 +635,9 @@ class ServerlessSimulator:
                     self.running_count -= 1
                     self.idle_count += 1
                 else:
-                    raise Exception(f"Unknown transition in states: {new_state}")
+                    # force this only if we are running current class, not child classes
+                    if self.__class__ == ServerlessSimulator:
+                        raise Exception(f"Unknown transition in states: {new_state}")
 
         # after the trace loop, append the last time recorded
         self.hist_times.append(t)
@@ -645,7 +652,7 @@ class ServerlessSimulator:
 
 if __name__ == "__main__":
     sim = ServerlessSimulator(arrival_rate=0.9, warm_service_rate=1/2.016, cold_service_rate=1/2.163,
-            expiration_threshold=600, max_time=100000)
+            expiration_threshold=600, max_time=1e5)
     sim.generate_trace(debug_print=False, progress=True)
     sim.print_trace_results()
   

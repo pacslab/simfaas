@@ -29,6 +29,7 @@ jobs:
       run: |
         python -u simfaas/SimProcess.py
         python -u simfaas/ServerlessSimulator.py
+        python -u simfaas/ParServerlessSimulator.py
         python -u simfaas/ServerlessTemporalSimulator.py
         python -u examples/sim_trace.py
     - name: Build and publish

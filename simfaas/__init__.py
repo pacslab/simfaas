@@ -9,3 +9,5 @@ from . import SimProcess
 from . import Utility
 from . import ServerlessSimulator
 from . import FunctionInstance
+from . import ParFunctionInstance
+from . import ParServerlessSimulator

@@ -30,8 +30,11 @@ class FunctionInstance:
         self.is_cold = True
 
         # calculate departure and expected termination on each arrival
-        self.next_departure = t + self.cold_service_process.generate_trace()
+        self.generate_cold_departure(t)
         self.update_next_termination()
+
+    def generate_cold_departure(self, t):
+        self.next_departure = t + self.cold_service_process.generate_trace()
 
     def __str__(self):
         return f"State: {self.state} \t Departure: {self.next_departure:8.2f} \t Termination: {self.next_termination:8.2f}"
