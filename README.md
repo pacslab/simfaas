@@ -2,7 +2,7 @@
 
 [![dockeri.co](https://dockeri.co/image/nimamahmoudi/jupyter-simfaas)](https://hub.docker.com/r/nimamahmoudi/jupyter-simfaas)
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/simfaas/production?urlpath=lab%2Ftree%2Fexamples%2F)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/simfaas/master?urlpath=lab%2Ftree%2Fexamples%2F)
 [![PyPI](https://img.shields.io/pypi/v/simfaas.svg)](https://pypi.org/project/simfaas/)
 ![PyPI - Status](https://img.shields.io/pypi/status/simfaas.svg)
 ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/simfaas.svg)
