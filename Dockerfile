@@ -24,6 +24,10 @@ RUN pip install jupyter_contrib_nbextensions && \
 # example requirements
 ADD examples/requirements.txt /simfaas/ex-requirements.txt
 RUN pip install -r /simfaas/ex-requirements.txt
+# Plotly for Jupyter
+RUN pip install jupyterlab "ipywidgets==7.5" \
+    && jupyter labextension install jupyterlab-plotly@4.8.2 \
+    && jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.8.2
 # copy simfaas
 ADD requirements.txt /simfaas/
 RUN pip install -r /simfaas/requirements.txt
