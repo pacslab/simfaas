@@ -23,6 +23,7 @@ The developed performance model can be used to debug/improve analytical performa
 - [Github Repo](https://github.com/pacslab/simfaas)
 - [ReadTheDocs Documentation](https://simfaas.readthedocs.io/en/latest/) ([PDF](https://simfaas.readthedocs.io/_/downloads/en/latest/pdf/))
 - [Examples](./examples) ([MyBinder Jupyter Lab](https://mybinder.org/v2/gh/pacslab/simfaas/master?urlpath=lab%2Ftree%2Fexamples%2F))
+- [Jupyter Notebook Docker Image](https://hub.docker.com/r/nimamahmoudi/jupyter-simfaas)
 
 ## Requirements
 
