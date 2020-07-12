@@ -131,3 +131,9 @@ dask-worker-space
 
 classes_simfaas.*
 packages_simfaas.*
+
+# Jupyter
+.jupyter
+.local
+.npm
+.config

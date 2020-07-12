@@ -6,7 +6,7 @@ name: PyPi Upload
 on:
   push:
   pull_request:
-    branches: [ production ]
+    branches: [ master ]
 
 jobs:
   deploy:
@@ -33,7 +33,7 @@ jobs:
         python -u simfaas/ServerlessTemporalSimulator.py
         python -u examples/sim_trace.py
     - name: Build and publish
-      if: ${{ github.ref == 'refs/heads/production' }}
+      if: ${{ github.ref == 'refs/heads/master' }}
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}

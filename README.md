@@ -1,13 +1,17 @@
 # SimFaaS: A Serverless Performance Simulator
 
+[![dockeri.co](https://dockeri.co/image/nimamahmoudi/jupyter-simfaas)](https://hub.docker.com/r/nimamahmoudi/jupyter-simfaas)
+
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pacslab/simfaas/production?urlpath=lab%2Ftree%2Fexamples%2F)
 [![PyPI](https://img.shields.io/pypi/v/simfaas.svg)](https://pypi.org/project/simfaas/)
 ![PyPI - Status](https://img.shields.io/pypi/status/simfaas.svg)
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/simfaas.svg)
+![GitHub](https://img.shields.io/github/license/pacslab/simfaas.svg)
+
+
 ![PyPi Upload](https://github.com/pacslab/simfaas/workflows/PyPi%20Upload/badge.svg)
 ![API Docker CI](https://github.com/pacslab/simfaas/workflows/API%20Docker%20CI/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/simfaas/badge/?version=latest)](https://simfaas.readthedocs.io/en/latest/?badge=latest)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/simfaas.svg)
-![GitHub](https://img.shields.io/github/license/pacslab/simfaas.svg)
 
 This is a project done in [PACS Lab](https://pacs.eecs.yorku.ca/) aiming to develop a performance simulator for serverless computing platforms. Using this simulator, we can calculate Quality of Service (QoS) metrics like average response time, the average probability of cold start, average running servers (directly reflecting average cost), a histogram of different events, distribution of the number of servers throughout time, and many other characteristics.
 
