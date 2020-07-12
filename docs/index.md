@@ -1,5 +1,7 @@
-Welcome to Serverless Performance Simulator's documentation
+Welcome to Serverless Performance Simulator's documentation!
 ============================================================
+
+[![dockeri.co](https://dockeri.co/image/nimamahmoudi/jupyter-simfaas)](https://hub.docker.com/r/nimamahmoudi/jupyter-simfaas)
 
 This is a project done in [PACS Lab](https://pacs.eecs.yorku.ca/) aiming to develop a performance simulator for serverless computing platforms. Using this simulator, we can calculate Quality of Service (QoS) metrics like average response time, the average probability of cold start, average running servers (directly reflecting average cost), a histogram of different events, distribution of the number of servers throughout time, and many other characteristics.
 
@@ -18,6 +20,7 @@ You can check out the source code in our [Github Repository](https://github.com/
    parsim.md
    simprocess.md
    api-reference.md
+   jupyter-docker.md
 
 
 Indices and tables

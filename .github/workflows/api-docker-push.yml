@@ -37,7 +37,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: nimamahmoudi/jupyter-simfaas
-        cache_froms: jupyter/datascience-notebook:latest
+        cache_froms: jupyter/datascience-notebook,nimamahmoudi/jupyter-simfaas
         path: ./
         dockerfile: ./Dockerfile
         registry: docker.io
