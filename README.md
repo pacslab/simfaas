@@ -160,5 +160,27 @@ MIT (c) 2020 Nima Mahmoudi & Hamzeh Khazaei
 You can find the paper with details of the simultor in [PACS lab website](https://pacs.eecs.yorku.ca/publications/). You can use the following bibtex entry for citing our work:
 
 ```bib
-Coming Soon...
+@inproceedings{mahmoudi2021simfaas,
+  author={Mahmoudi, Nima and Khazaei, Hamzeh},
+  title={{SimFaaS: A Performance Simulator for Serverless Computing Platforms}},
+  year={2021},
+  publisher = {Springer},
+  booktitle={{International Conference on Cloud Computing and Services Science}},
+  pages={1--11},
+  numpages = {11},
+  keywords = {performance modelling, serverless computing, serverless, simulator, performance},
+  series = {CLOSER '21},
+  url_paper={},
+  url_pdf={https://pacs.eecs.yorku.ca/pubs/pdf/SimFaaS_CLOSER2021_Website_Preprint.pdf}
+}
+
+@misc{mahmoudi2021simfaaspre,
+  title={{SimFaaS: A Performance Simulator for Serverless Computing Platforms}},
+  author={Nima Mahmoudi and Hamzeh Khazaei},
+  year={2021},
+  eprint={2102.08904},
+  archivePrefix={arXiv},
+  primaryClass={cs.DC},
+  url_paper={https://arxiv.org/abs/2102.08904}
+}
 ```
